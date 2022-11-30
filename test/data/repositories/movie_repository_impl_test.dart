@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:ditonton/common/network_info.dart';
+import 'package:ditonton/data/datasources/movie_local_data_source.dart';
 import 'package:ditonton/data/models/genre_model.dart';
 import 'package:ditonton/data/models/movie_detail_model.dart';
 import 'package:ditonton/data/models/movie_model.dart';
+import 'package:ditonton/data/models/movie_table.dart';
 import 'package:ditonton/data/repositories/movie_repository_impl.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
@@ -18,13 +22,24 @@ void main() {
   late MovieRepositoryImpl repository;
   late MockMovieRemoteDataSource mockRemoteDataSource;
   late MockMovieLocalDataSource mockLocalDataSource;
+  late MockNetworkInfo mockNetworkInfo;
+  late MockDatabaseHelper mockDatabaseHelper;
+  late MovieLocalDataSourceImpl dataSource;
+  late NetworkInfoImpl network;
+  late DataConnectionChecker connectionChecker;
 
   setUp(() {
     mockRemoteDataSource = MockMovieRemoteDataSource();
     mockLocalDataSource = MockMovieLocalDataSource();
+    mockNetworkInfo = MockNetworkInfo();
+    mockDatabaseHelper = MockDatabaseHelper();
+    dataSource = MovieLocalDataSourceImpl(databaseHelper: mockDatabaseHelper);
+    connectionChecker = DataConnectionChecker();
+    network = NetworkInfoImpl(connectionChecker: connectionChecker);
     repository = MovieRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
+      networkInfo: mockNetworkInfo,
     );
   });
 
@@ -62,10 +77,61 @@ void main() {
     voteCount: 13507,
   );
 
+  final testMovieFromCache = Movie(
+    adult: null,
+    backdropPath: null,
+    genreIds: null,
+    id: 557,
+    originalTitle: null,
+    overview:
+    'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+    popularity: null,
+    posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
+    releaseDate: null,
+    title: 'Spider-Man',
+    video: null,
+    voteAverage: null,
+    voteCount: null,
+  );
+
   final tMovieModelList = <MovieModel>[tMovieModel];
   final tMovieList = <Movie>[tMovie];
 
   group('Now Playing Movies', () {
+
+    setUp(() {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+    });
+
+    test('should check if the device is online', () async {
+      //arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getNowPlayingMovies()).thenAnswer((_) async => []);
+      //act
+      await repository.getNowPlayingMovies();
+      //assert
+      verify(mockNetworkInfo.isConnected);
+    });
+
+    test('should check if data connection checker is online or offline', () async {
+      //act
+      final result = await network.isConnected;
+      //assert
+      if (result) {
+        expect(result, true);
+      } else {
+        expect(result, false);
+      }
+    });
+
+    final testMovieCache = MovieTable(
+      id: 557,
+      overview:
+      'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+      posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
+      title: 'Spider-Man',
+    );
+
     test(
         'should return remote data when the call to remote data source is successful',
         () async {
@@ -81,6 +147,16 @@ void main() {
       expect(resultList, tMovieList);
     });
 
+    test('should cache data locally when the call to remote data source is successful', () async {
+      //arrange
+      when(mockRemoteDataSource.getNowPlayingMovies()).thenAnswer((_) async => tMovieModelList);
+      //act
+      await repository.getNowPlayingMovies();
+      //assert
+      verify(mockRemoteDataSource.getNowPlayingMovies());
+      verify(mockLocalDataSource.cacheNowPlayingMovies([testMovieCache]));
+    });
+
     test(
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
@@ -92,6 +168,35 @@ void main() {
       // assert
       verify(mockRemoteDataSource.getNowPlayingMovies());
       expect(result, equals(Left(ServerFailure(''))));
+    });
+
+    group('when device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      });
+
+      test('should return cached data when device is offline', () async {
+        //arrange
+        when(mockLocalDataSource.getCachedNowPlayingMovies()).thenAnswer((_)
+        async => [testMovieCache]);
+        //act
+        final result = await repository.getNowPlayingMovies();
+        //assert
+        verify(mockLocalDataSource.getCachedNowPlayingMovies());
+        final resultList = result.getOrElse(() => []);
+        expect(resultList, [testMovieFromCache]);
+      });
+
+      test('should return CacheFailure when app has no cache', () async {
+        //arrange
+        when(mockLocalDataSource.getCachedNowPlayingMovies())
+            .thenThrow(CacheException('No Cache'));
+        //act
+        final result = await repository.getNowPlayingMovies();
+        //assert
+        verify(mockLocalDataSource.getCachedNowPlayingMovies());
+        expect(result, Left(CacheFailure('No Cache')));
+      });
     });
 
     test(
@@ -107,7 +212,52 @@ void main() {
       expect(result,
           equals(Left(ConnectionFailure('Failed to connect to the network'))));
     });
+
+    group('cache now playing movies', () {
+      setUp(() {
+        when(mockLocalDataSource.getCachedNowPlayingMovies()).thenAnswer((_) async => [testMovieCache]);
+      });
+      test('should call database helper to save data', () async {
+        //arrange
+        when(mockDatabaseHelper.clearCache('now playing')).thenAnswer((_) async => 1);
+        //act
+        await dataSource.cacheNowPlayingMovies([testMovieCache]);
+        //assert
+        verify(mockDatabaseHelper.clearCache('now playing'));
+        verify(mockDatabaseHelper
+            .insertCacheTransaction([testMovieCache], 'now playing'));
+      });
+
+      final testMovieCacheMap = {
+        'id': 557,
+        'overview':
+        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+        'posterPath': '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
+        'title': 'Spider-Man',
+      };
+
+      test('should return list of movies from db when data exist', () async {
+        //arrange
+        when(mockDatabaseHelper.getCacheMovies('now playing')).thenAnswer((_) async => [testMovieCacheMap]);
+        //act
+        final result = await dataSource.getCachedNowPlayingMovies();
+        //assert
+        expect(result, [testMovieCache]);
+      });
+
+      test('should throw CacheException when cache data is not exist', () async {
+        //arrange
+        when(mockDatabaseHelper.getCacheMovies('now playing'))
+            .thenAnswer((_) async => []);
+        //act
+        final call = dataSource.getCachedNowPlayingMovies();
+        //assert
+        expect(() => call, throwsA(isA<CacheException>()));
+      });
+    });
   });
+
+
 
   group('Popular Movies', () {
     test('should return movie list when call to data source is success',

@@ -206,8 +206,9 @@ class DetailContent extends StatelessWidget {
                                         return Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(
+                                            key: Key('movie-rec-${movie.id}'),
                                             onTap: () {
-                                              Navigator.pushReplacementNamed(
+                                              Navigator.pushNamed(
                                                 context,
                                                 MovieDetailPage.ROUTE_NAME,
                                                 arguments: movie.id,

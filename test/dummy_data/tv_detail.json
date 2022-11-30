@@ -1,0 +1,87 @@
+{
+  "adult": false,
+  "backdrop_path": "/3N3bUR0M9x3W5745KBFhXHawJrl.jpg",
+  "created_by": [
+
+  ],
+  "episode_run_time": [
+    60
+  ],
+  "first_air_date": "2004-01-12",
+  "genres": [
+    {
+      "id": 18,
+      "name": "Drama"
+    }
+  ],
+  "homepage": "https://www.fujitv.co.jp/b_hp/m9_pride/",
+  "id": 1,
+  "in_production": false,
+  "last_air_date": "2004-03-22",
+  "last_episode_to_air": {
+    "air_date": "2004-03-22",
+    "episode_number": 11,
+    "id": 1130472,
+    "name": "Pride Called Love",
+    "overview": "",
+    "production_code": "",
+    "runtime": 60,
+    "season_number": 1,
+    "show_id": 1,
+    "still_path": null,
+    "vote_average": 0.0,
+    "vote_count": 0
+  },
+  "name": "Pride",
+  "next_episode_to_air": null,
+  "networks": [
+    {
+      "id": 1,
+      "name": "Fuji TV",
+      "logo_path": "/yS5UJjsSdZXML0YikWTYYHLPKhQ.png",
+      "origin_country": "JP"
+    }
+  ],
+  "number_of_episodes": 11,
+  "number_of_seasons": 1,
+  "origin_country": [
+    "JP"
+  ],
+  "original_language": "ja",
+  "original_name": "",
+  "overview": "",
+  "popularity": 11.485,
+  "poster_path": "/9Ub2BwnLYKoiSaQF93ItyXriCon.jpg",
+  "production_companies": [
+
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "JP",
+      "name": "Japan"
+    }
+  ],
+  "seasons": [
+    {
+      "air_date": "2004-01-12",
+      "episode_count": 11,
+      "id": 2328126,
+      "name": "Season 1",
+      "overview": "",
+      "poster_path": "/nCcGD18HmDFunCl8KBigqUPlIi8.jpg",
+      "season_number": 1
+    }
+  ],
+  "spoken_languages": [
+    {
+      "english_name": "Japanese",
+      "iso_639_1": "ja",
+      "name": ""
+    }
+  ],
+  "status": "Ended",
+  "tagline": "",
+  "type": "Scripted",
+  "vote_average": 8.136,
+  "vote_count": 11
+}

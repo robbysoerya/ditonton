@@ -1,0 +1,165 @@
+{
+  "_id": "5591b5fc9251417583001e32",
+  "air_date": "1978-01-13",
+  "episodes": [
+    {
+      "air_date": "1978-01-13",
+      "episode_number": 1,
+      "id": 1081416,
+      "name": "Episode 1",
+      "overview": "",
+      "production_code": "",
+      "runtime": 55,
+      "season_number": 1,
+      "show_id": 63059,
+      "still_path": null,
+      "vote_average": 0.0,
+      "vote_count": 0,
+      "crew": [
+
+      ],
+      "guest_stars": [
+        {
+          "character": "Tom",
+          "credit_id": "5591b68c9251417583001e45",
+          "order": 1,
+          "adult": false,
+          "gender": 2,
+          "id": 231018,
+          "known_for_department": "Acting",
+          "name": "Dietrich Mattausch",
+          "original_name": "Dietrich Mattausch",
+          "popularity": 2.822,
+          "profile_path": "/p2e10ekMFCsBKUe4zrmmfyynAE3.jpg"
+        },
+        {
+          "character": "Stuart",
+          "credit_id": "5591b6b5c3a36807f6001ea1",
+          "order": 2,
+          "adult": false,
+          "gender": 2,
+          "id": 1275544,
+          "known_for_department": "Acting",
+          "name": "Paul Edwin Roth",
+          "original_name": "Paul Edwin Roth",
+          "popularity": 1.771,
+          "profile_path": "/b8IEFuEejD7J7FoLofOt9eIlcRr.jpg"
+        },
+        {
+          "character": "Moira",
+          "credit_id": "5591b6c0c3a36807f6001ea4",
+          "order": 3,
+          "adult": false,
+          "gender": 1,
+          "id": 51406,
+          "known_for_department": "Acting",
+          "name": "Vera Tschechowa",
+          "original_name": "Vera Tschechowa",
+          "popularity": 3.248,
+          "profile_path": "/qOq1xZZ0j3EkwSYgBLp4Iikw2jx.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "1978-02-10",
+      "episode_number": 2,
+      "id": 1081419,
+      "name": "Episode 2",
+      "overview": "",
+      "production_code": "",
+      "runtime": 55,
+      "season_number": 1,
+      "show_id": 63059,
+      "still_path": null,
+      "vote_average": 0.0,
+      "vote_count": 0,
+      "crew": [
+
+      ],
+      "guest_stars": [
+        {
+          "character": "Frau Dr. Hausmüller",
+          "credit_id": "5591b76e92514155e6000695",
+          "order": 4,
+          "adult": false,
+          "gender": 1,
+          "id": 43686,
+          "known_for_department": "Acting",
+          "name": "Antje Hagen",
+          "original_name": "Antje Hagen",
+          "popularity": 1.965,
+          "profile_path": "/8r3c92gsghsNFlf40GUMuCIGIb9.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "1978-03-10",
+      "episode_number": 3,
+      "id": 1081420,
+      "name": "Episode 3",
+      "overview": "",
+      "production_code": "",
+      "runtime": 55,
+      "season_number": 1,
+      "show_id": 63059,
+      "still_path": null,
+      "vote_average": 0.0,
+      "vote_count": 0,
+      "crew": [
+
+      ],
+      "guest_stars": [
+        {
+          "character": "Monika Hochkamp",
+          "credit_id": "5591b79c9251417588001e42",
+          "order": 5,
+          "adult": false,
+          "gender": 0,
+          "id": 1088718,
+          "known_for_department": "Acting",
+          "name": "Franziska Bronnen",
+          "original_name": "Franziska Bronnen",
+          "popularity": 1.456,
+          "profile_path": "/mkqovKhXbBOpAbHsb809QhTnUp5.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "1978-04-07",
+      "episode_number": 4,
+      "id": 1081421,
+      "name": "Episode 4",
+      "overview": "",
+      "production_code": "",
+      "runtime": 55,
+      "season_number": 1,
+      "show_id": 63059,
+      "still_path": null,
+      "vote_average": 0.0,
+      "vote_count": 0,
+      "crew": [
+
+      ],
+      "guest_stars": [
+        {
+          "character": "Präsident",
+          "credit_id": "5591b7dac3a3680800001fc8",
+          "order": 6,
+          "adult": false,
+          "gender": 2,
+          "id": 26332,
+          "known_for_department": "Acting",
+          "name": "Friedrich Schütter",
+          "original_name": "Friedrich Schütter",
+          "popularity": 0.84,
+          "profile_path": "/grb2fFQRcOVnXBEE24vXyMMoYxI.jpg"
+        }
+      ]
+    }
+  ],
+  "name": "Season 1",
+  "overview": "",
+  "id": 68125,
+  "poster_path": null,
+  "season_number": 1
+}

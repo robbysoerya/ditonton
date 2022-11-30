@@ -188,6 +188,18 @@ void main() {
       // assert
       verify(mockRemoveWatchlist.execute(testMovieDetail));
     });
+    
+    test('should update watchList message failure when execute remove watchList failed', () async {
+      //arrange
+      when(mockRemoveWatchlist.execute(testMovieDetail))
+          .thenAnswer((_) async => Left(ServerFailure('failed')));
+      when(mockGetWatchlistStatus.execute(testMovieDetail.id))
+          .thenAnswer((_) async => false);
+      //act
+      await provider.removeFromWatchlist(testMovieDetail);
+      //assert
+      expect(provider.watchlistMessage,'failed');
+    });
 
     test('should update watchlist status when add watchlist success', () async {
       // arrange
