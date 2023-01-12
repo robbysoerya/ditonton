@@ -2,8 +2,6 @@ import 'package:ditonton/data/models/tv_model.dart';
 import 'package:ditonton/data/models/tv_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../dummy_data/dummy_objects.dart';
-
 void main() {
   final tTVModel = TVModel(
     backdropPath: 'backdropPath',
