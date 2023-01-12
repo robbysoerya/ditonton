@@ -13,8 +13,7 @@ class WatchlistTVPage extends StatefulWidget {
   _WatchlistTVPageState createState() => _WatchlistTVPageState();
 }
 
-class _WatchlistTVPageState extends State<WatchlistTVPage>
-    with RouteAware {
+class _WatchlistTVPageState extends State<WatchlistTVPage> with RouteAware {
   @override
   void initState() {
     super.initState();
@@ -30,8 +29,7 @@ class _WatchlistTVPageState extends State<WatchlistTVPage>
   }
 
   void didPopNext() {
-    Provider.of<WatchlistMovieNotifier>(context, listen: false)
-        .fetchWatchlistMovies();
+    Provider.of<WatchlistTVNotifier>(context, listen: false).fetchWatchlistTV();
   }
 
   @override

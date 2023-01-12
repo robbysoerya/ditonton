@@ -3,6 +3,8 @@ import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
+import 'package:ditonton/presentation/pages/now_playing_movies_page.dart';
+import 'package:ditonton/presentation/pages/now_playing_tv_page.dart';
 import 'package:ditonton/presentation/pages/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/popular_tv_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
@@ -17,6 +19,8 @@ import 'package:ditonton/presentation/pages/watchlist_tv_page.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
+import 'package:ditonton/presentation/provider/now_playing_movies_notifier.dart';
+import 'package:ditonton/presentation/provider/now_playing_tv_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_tv_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
@@ -59,9 +63,8 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistMovieNotifier>(),
         ),
         ChangeNotifierProvider(
-            create: (_) => di.locator<TVListNotifier>(),
+          create: (_) => di.locator<TVListNotifier>(),
         ),
-
         ChangeNotifierProvider(
           create: (_) => di.locator<PopularTVNotifier>(),
         ),
@@ -75,7 +78,13 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistTVNotifier>(),
         ),
         ChangeNotifierProvider(
-            create: (_) => di.locator<TVSeasonDetailNotifier>(),
+          create: (_) => di.locator<TVSeasonDetailNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<NowPlayingMoviesNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<NowPlayingTVNotifier>(),
         ),
       ],
       child: MaterialApp(
@@ -101,18 +110,17 @@ class MyApp extends StatelessWidget {
             case TVDetailPage.ROUTE_NAME:
               final id = settings.arguments as int;
               return MaterialPageRoute(
-                builder: (_) =>
-                    ChangeNotifierProvider(
-                        create: (_) => di.locator<TVDetailNotifier>(),
-                        child: TVDetailPage(id: id)),
+                builder: (_) => ChangeNotifierProvider(
+                    create: (_) => di.locator<TVDetailNotifier>(),
+                    child: TVDetailPage(id: id)),
               );
             case PopularTVPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => PopularTVPage());
             case TVSeasonDetailPage.ROUTE_NAME:
-              return CupertinoPageRoute(builder: (_) =>
-                  TVSeasonDetailPage(
-                    args: settings.arguments as TVSeasonDetailArgs,
-                  ));
+              return CupertinoPageRoute(
+                  builder: (_) => TVSeasonDetailPage(
+                        args: settings.arguments as TVSeasonDetailArgs,
+                      ));
             case TopRatedTVPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => TopRatedTVPage());
             case SearchTVPage.ROUTE_NAME:
@@ -121,13 +129,17 @@ class MyApp extends StatelessWidget {
               return CupertinoPageRoute(builder: (_) => PopularMoviesPage());
             case TopRatedMoviesPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => TopRatedMoviesPage());
+            case NowPlayingMoviesPage.ROUTE_NAME:
+              return CupertinoPageRoute(builder: (_) => NowPlayingMoviesPage());
+            case NowPlayingTVPage.ROUTE_NAME:
+              return CupertinoPageRoute(builder: (_) => NowPlayingTVPage());
             case MovieDetailPage.ROUTE_NAME:
               final id = settings.arguments as int;
               return MaterialPageRoute(
-                builder: (_) =>
-                    ChangeNotifierProvider(
-                      create: (_) => di.locator<MovieDetailNotifier>(),
-                      child: MovieDetailPage(id: id),),
+                builder: (_) => ChangeNotifierProvider(
+                  create: (_) => di.locator<MovieDetailNotifier>(),
+                  child: MovieDetailPage(id: id),
+                ),
                 settings: settings,
               );
             case SearchPage.ROUTE_NAME:

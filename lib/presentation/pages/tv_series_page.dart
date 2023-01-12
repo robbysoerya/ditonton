@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/domain/entities/tv.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
+import 'package:ditonton/presentation/pages/now_playing_tv_page.dart';
 import 'package:ditonton/presentation/pages/popular_tv_page.dart';
 import 'package:ditonton/presentation/pages/search_tv_page.dart';
-import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/pages/top_rated_tv_page.dart';
 import 'package:ditonton/presentation/pages/tv_detail_page.dart';
@@ -23,11 +22,10 @@ class _TVSeriesPageState extends State<TVSeriesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-            () => Provider.of<TVListNotifier>(context, listen: false)
-          ..fetchOnTheAirTV()
-          ..fetchPopularTV()
-          ..fetchTopRatedTV());
+    Future.microtask(() => Provider.of<TVListNotifier>(context, listen: false)
+      ..fetchOnTheAirTV()
+      ..fetchPopularTV()
+      ..fetchTopRatedTV());
   }
 
   @override
@@ -50,9 +48,10 @@ class _TVSeriesPageState extends State<TVSeriesPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Now Playing',
-                style: kHeading6,
+              _buildSubHeading(
+                title: 'Now Playing',
+                onTap: () =>
+                    Navigator.pushNamed(context, NowPlayingTVPage.ROUTE_NAME),
               ),
               Consumer<TVListNotifier>(builder: (context, data, child) {
                 final state = data.onTheAirTVState;

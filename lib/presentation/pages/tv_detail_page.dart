@@ -21,13 +21,14 @@ class TVDetailPage extends StatefulWidget {
 }
 
 class _TVDetailPageState extends State<TVDetailPage> {
-
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       Provider.of<TVDetailNotifier>(context, listen: false)
           .fetchTVDetail(widget.id);
+      Provider.of<TVDetailNotifier>(context, listen: false)
+          .loadWatchlistStatus(widget.id);
     });
   }
 
@@ -108,25 +109,23 @@ class DetailContent extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () async {
                                 if (!isAddedWatchlist) {
-                                  await Provider.of<TVDetailNotifier>(
-                                      context,
-                                      listen: false)
+                                  await Provider.of<TVDetailNotifier>(context,
+                                          listen: false)
                                       .addWatchlist(tvDetail);
                                 } else {
-                                  await Provider.of<TVDetailNotifier>(
-                                      context,
-                                      listen: false)
+                                  await Provider.of<TVDetailNotifier>(context,
+                                          listen: false)
                                       .removeFromWatchlist(tvDetail);
                                 }
 
-                                final message =
-                                    Provider.of<TVDetailNotifier>(context,
+                                final message = Provider.of<TVDetailNotifier>(
+                                        context,
                                         listen: false)
-                                        .watchlistMessage;
+                                    .watchlistMessage;
 
                                 if (message ==
-                                    TVDetailNotifier
-                                        .watchlistAddSuccessMessage ||
+                                        TVDetailNotifier
+                                            .watchlistAddSuccessMessage ||
                                     message ==
                                         TVDetailNotifier
                                             .watchlistRemoveSuccessMessage) {
@@ -156,9 +155,10 @@ class DetailContent extends StatelessWidget {
                               _showGenres(tvDetail.genres),
                             ),
                             Text(
-                              _showDuration(tvDetail.episodeRunTime.isEmpty
-                                  ? 0
-                                  : tvDetail.episodeRunTime.first,
+                              _showDuration(
+                                tvDetail.episodeRunTime.isEmpty
+                                    ? 0
+                                    : tvDetail.episodeRunTime.first,
                               ),
                             ),
                             Row(
@@ -184,55 +184,63 @@ class DetailContent extends StatelessWidget {
                               tvDetail.overview,
                             ),
                             SizedBox(height: 16),
-                            Text('Seasons',style: kHeading6,),
-                            Container(height: 200,
-                            child:  ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: tvDetail.seasons.length,
-                              itemBuilder: (context, index) {
-                                final season = tvDetail.seasons[index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: InkWell(
-                                    key: Key('tv-seasons-${season.id}'),
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context, TVSeasonDetailPage.ROUTE_NAME,
-                                        arguments: TVSeasonDetailArgs(
-                                          id: tvDetail.id,
-                                          season: season.seasonNumber,
-                                        ),
-                                      );
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(8),
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                            'https://image.tmdb.org/t/p/w500${season.posterPath}',
-                                            height: 150,
-                                            placeholder: (context, url) =>
-                                                Center(
-                                                  child:
-                                                  CircularProgressIndicator(),
-                                                ),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                Icon(Icons.error),
-                                          ),
-                                        ),
-                                        Text('Season: ${season.seasonNumber}'),
-                                        Text('Total Episode: ${season.episodeCount}'),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
+                            Text(
+                              'Seasons',
+                              style: kHeading6,
                             ),
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: tvDetail.seasons.length,
+                                itemBuilder: (context, index) {
+                                  final season = tvDetail.seasons[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: InkWell(
+                                      key: Key('tv-seasons-${season.id}'),
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          TVSeasonDetailPage.ROUTE_NAME,
+                                          arguments: TVSeasonDetailArgs(
+                                            id: tvDetail.id,
+                                            season: season.seasonNumber,
+                                          ),
+                                        );
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(8),
+                                            ),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  'https://image.tmdb.org/t/p/w500${season.posterPath}',
+                                              height: 150,
+                                              placeholder: (context, url) =>
+                                                  Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            ),
+                                          ),
+                                          Text(
+                                              'Season: ${season.seasonNumber}'),
+                                          Text(
+                                              'Total Episode: ${season.episodeCount}'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                             SizedBox(height: 16),
                             Text(
@@ -274,15 +282,15 @@ class DetailContent extends StatelessWidget {
                                               ),
                                               child: CachedNetworkImage(
                                                 imageUrl:
-                                                'https://image.tmdb.org/t/p/w500${tv.posterPath}',
+                                                    'https://image.tmdb.org/t/p/w500${tv.posterPath}',
                                                 placeholder: (context, url) =>
                                                     Center(
-                                                      child:
+                                                  child:
                                                       CircularProgressIndicator(),
-                                                    ),
+                                                ),
                                                 errorWidget:
                                                     (context, url, error) =>
-                                                    Icon(Icons.error),
+                                                        Icon(Icons.error),
                                               ),
                                             ),
                                           ),
