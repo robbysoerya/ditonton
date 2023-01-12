@@ -1,4 +1,3 @@
-
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/pages/tv_season_detail_page.dart';
@@ -13,7 +12,6 @@ import '../../dummy_data/dummy_objects.dart';
 import 'tv_season_detail_page_test.mocks.dart';
 
 @GenerateMocks([TVSeasonDetailNotifier])
-
 void main() {
   late MockTVSeasonDetailNotifier mockNotifier;
 
@@ -22,17 +20,17 @@ void main() {
   });
 
   MaterialPageRoute tvSeasonDetailRoute(TVSeasonDetailArgs args) {
-    return MaterialPageRoute(builder: (_) =>
-    ChangeNotifierProvider<TVSeasonDetailNotifier>.value(
-      value: mockNotifier,
-      child: TVSeasonDetailPage(args: args,
-      ),
-    ),
+    return MaterialPageRoute(
+        builder: (_) => ChangeNotifierProvider<TVSeasonDetailNotifier>.value(
+              value: mockNotifier,
+              child: TVSeasonDetailPage(
+                args: args,
+              ),
+            ),
         settings: RouteSettings(
-            name: TVSeasonDetailPage.ROUTE_NAME,
-            arguments: args,
-        )
-    );
+          name: TVSeasonDetailPage.ROUTE_NAME,
+          arguments: args,
+        ));
   }
 
   Widget _makeTestableWidget(Widget body) {
@@ -47,10 +45,12 @@ void main() {
           textTheme: kTextTheme,
         ),
         onGenerateRoute: (settings) {
-          switch(settings.name) {
+          switch (settings.name) {
             case TVSeasonDetailPage.ROUTE_NAME:
-              return tvSeasonDetailRoute(settings.arguments as TVSeasonDetailArgs);
+              return tvSeasonDetailRoute(
+                  settings.arguments as TVSeasonDetailArgs);
           }
+          return null;
         },
       ),
     );
@@ -59,29 +59,34 @@ void main() {
   final args = TVSeasonDetailArgs(id: 1, season: 1);
 
   testWidgets(
-      'should return CircularProgressIndicator when tv season detail state is Loading', (
-      tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loading);
+      'should return CircularProgressIndicator when tv season detail state is Loading',
+      (tester) async {
+    when(mockNotifier.state).thenReturn(RequestState.loading);
 
-    await tester.pumpWidget(_makeTestableWidget(TVSeasonDetailPage(args: args)));
+    await tester
+        .pumpWidget(_makeTestableWidget(TVSeasonDetailPage(args: args)));
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets(
-      'should return Text error when tv season detail state is error', (tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Error);
+  testWidgets('should return Text error when tv season detail state is error',
+      (tester) async {
+    when(mockNotifier.state).thenReturn(RequestState.error);
     when(mockNotifier.message).thenReturn('Failed');
 
-    await tester.pumpWidget(_makeTestableWidget(TVSeasonDetailPage(args: args)));
+    await tester
+        .pumpWidget(_makeTestableWidget(TVSeasonDetailPage(args: args)));
     expect(find.text('Failed'), findsOneWidget);
   });
-  
-  testWidgets('should return ContentWidget when tv season detail state is loaded ', (tester) async {
+
+  testWidgets(
+      'should return ContentWidget when tv season detail state is loaded ',
+      (tester) async {
     //arrange
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
+    when(mockNotifier.state).thenReturn(RequestState.loaded);
     when(mockNotifier.tvSeasons).thenReturn(testTVSeasonDetail);
     //act
-    await tester.pumpWidget(_makeTestableWidget(TVSeasonDetailPage(args: args)));
+    await tester
+        .pumpWidget(_makeTestableWidget(TVSeasonDetailPage(args: args)));
     //assert
     expect(find.byType(ContentWidget), findsOneWidget);
   });

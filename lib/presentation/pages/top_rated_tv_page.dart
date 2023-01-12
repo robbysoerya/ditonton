@@ -30,11 +30,11 @@ class _TopRatedTVPageState extends State<TopRatedTVPage> {
         padding: const EdgeInsets.all(8.0),
         child: Consumer<TopRatedTVNotifier>(
           builder: (context, data, child) {
-            if (data.topRatedTVState == RequestState.Loading) {
+            if (data.topRatedTVState == RequestState.loading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.topRatedTVState == RequestState.Loaded) {
+            } else if (data.topRatedTVState == RequestState.loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = data.topRatedTV[index];

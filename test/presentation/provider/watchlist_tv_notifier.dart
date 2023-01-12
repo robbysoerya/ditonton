@@ -22,8 +22,8 @@ void main() {
     provider = WatchlistTVNotifier(
       getWatchlistTV: mockGetWatchlistTV,
     )..addListener(() {
-      listenerCallCount += 1;
-    });
+        listenerCallCount += 1;
+      });
   });
 
   test('should change movies data when data is gotten successfully', () async {
@@ -33,7 +33,7 @@ void main() {
     // act
     await provider.fetchWatchlistTV();
     // assert
-    expect(provider.watchlistState, RequestState.Loaded);
+    expect(provider.watchlistState, RequestState.loaded);
     expect(provider.watchlistTV, [testWatchlistTV]);
     expect(listenerCallCount, 2);
   });
@@ -45,7 +45,7 @@ void main() {
     // act
     await provider.fetchWatchlistTV();
     // assert
-    expect(provider.watchlistState, RequestState.Error);
+    expect(provider.watchlistState, RequestState.error);
     expect(provider.message, "Can't get data");
     expect(listenerCallCount, 2);
   });

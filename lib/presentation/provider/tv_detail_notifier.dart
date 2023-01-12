@@ -30,7 +30,7 @@ class TVDetailNotifier extends ChangeNotifier {
 
   TVDetail get tvDetail => _tvDetail;
 
-  RequestState _tvDetailState = RequestState.Empty;
+  RequestState _tvDetailState = RequestState.empty;
 
   RequestState get tvDetailState => _tvDetailState;
 
@@ -38,7 +38,7 @@ class TVDetailNotifier extends ChangeNotifier {
 
   List<TV> get tvRecommendations => _tvRecommendations;
 
-  RequestState _tvRecommendationsState = RequestState.Empty;
+  RequestState _tvRecommendationsState = RequestState.empty;
 
   RequestState get tvRecommendationsState => _tvRecommendationsState;
 
@@ -50,33 +50,33 @@ class TVDetailNotifier extends ChangeNotifier {
   bool get isAddedToWatchlist => _isAddedToWatchlist;
 
   Future<void> fetchTVDetail(int id) async {
-    _tvDetailState = RequestState.Loading;
+    _tvDetailState = RequestState.loading;
     notifyListeners();
 
     final result = await getTVDetail.execute(id);
     final recommendations = await getTVRecommendations.execute(id);
     result.fold(
-          (failure) {
-        _tvDetailState = RequestState.Error;
+      (failure) {
+        _tvDetailState = RequestState.error;
         _message = failure.message;
         notifyListeners();
       },
-          (tvData) {
-        _tvRecommendationsState = RequestState.Loading;
+      (tvData) {
+        _tvRecommendationsState = RequestState.loading;
         notifyListeners();
 
         recommendations.fold(
-              (failure) {
-            _tvRecommendationsState = RequestState.Error;
+          (failure) {
+            _tvRecommendationsState = RequestState.error;
             _message = failure.message;
           },
-              (tvDataRecommendation) {
-            _tvRecommendationsState = RequestState.Loaded;
+          (tvDataRecommendation) {
+            _tvRecommendationsState = RequestState.loaded;
             _tvRecommendations = tvDataRecommendation;
           },
         );
 
-        _tvDetailState = RequestState.Loaded;
+        _tvDetailState = RequestState.loaded;
         _tvDetail = tvData;
         notifyListeners();
       },
@@ -90,10 +90,10 @@ class TVDetailNotifier extends ChangeNotifier {
     final result = await saveWatchlist.execute(tv);
 
     await result.fold(
-          (failure) async {
+      (failure) async {
         _watchlistMessage = failure.message;
       },
-          (successMessage) async {
+      (successMessage) async {
         _watchlistMessage = successMessage;
       },
     );
@@ -105,10 +105,10 @@ class TVDetailNotifier extends ChangeNotifier {
     final result = await removeWatchlist.execute(tv);
 
     await result.fold(
-          (failure) async {
+      (failure) async {
         _watchlistMessage = failure.message;
       },
-          (successMessage) async {
+      (successMessage) async {
         _watchlistMessage = successMessage;
       },
     );

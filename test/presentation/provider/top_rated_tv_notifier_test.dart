@@ -10,7 +10,6 @@ import 'package:mockito/mockito.dart';
 
 import 'tv_list_notifier_test.mocks.dart';
 
-
 @GenerateMocks([GetTopRatedTV])
 void main() {
   late MockGetTopRatedTV mockGetTopRatedTV;
@@ -41,23 +40,21 @@ void main() {
 
   test('should change state to loading when usecase is called', () async {
     // arrange
-    when(mockGetTopRatedTV.execute())
-        .thenAnswer((_) async => Right(tTVList));
+    when(mockGetTopRatedTV.execute()).thenAnswer((_) async => Right(tTVList));
     // act
     notifier.fetchTopRatedTV();
     // assert
-    expect(notifier.topRatedTVState, RequestState.Loading);
+    expect(notifier.topRatedTVState, RequestState.loading);
     expect(listenerCallCount, 1);
   });
 
   test('should change tv data when data is gotten successfully', () async {
     // arrange
-    when(mockGetTopRatedTV.execute())
-        .thenAnswer((_) async => Right(tTVList));
+    when(mockGetTopRatedTV.execute()).thenAnswer((_) async => Right(tTVList));
     // act
     await notifier.fetchTopRatedTV();
     // assert
-    expect(notifier.topRatedTVState, RequestState.Loaded);
+    expect(notifier.topRatedTVState, RequestState.loaded);
     expect(notifier.topRatedTV, tTVList);
     expect(listenerCallCount, 2);
   });
@@ -69,7 +66,7 @@ void main() {
     // act
     await notifier.fetchTopRatedTV();
     // assert
-    expect(notifier.topRatedTVState, RequestState.Error);
+    expect(notifier.topRatedTVState, RequestState.error);
     expect(notifier.message, 'Server Failure');
     expect(listenerCallCount, 2);
   });

@@ -24,12 +24,12 @@ class TVSeasonDetailPage extends StatefulWidget {
 }
 
 class _TVSeasonDetailPageState extends State<TVSeasonDetailPage> {
-
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => Provider.of<TVSeasonDetailNotifier>(context,listen: false)
-        .fetchTVSeasonDetail(widget.args.id, widget.args.season));
+    Future.microtask(() =>
+        Provider.of<TVSeasonDetailNotifier>(context, listen: false)
+            .fetchTVSeasonDetail(widget.args.id, widget.args.season));
   }
 
   @override
@@ -38,17 +38,18 @@ class _TVSeasonDetailPageState extends State<TVSeasonDetailPage> {
       appBar: AppBar(
         title: Text('Season Detail'),
       ),
-      body: Consumer<TVSeasonDetailNotifier>(
-        builder: (context,provider,child) {
-          if (provider.state == RequestState.Loading) {
-            return Center(child: CircularProgressIndicator(),);
-          } else if (provider.state == RequestState.Loaded) {
-            return ContentWidget(tvSeasons: provider.tvSeasons);
-          } else {
-            return Text(provider.message);
-          }
+      body:
+          Consumer<TVSeasonDetailNotifier>(builder: (context, provider, child) {
+        if (provider.state == RequestState.loading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (provider.state == RequestState.loaded) {
+          return ContentWidget(tvSeasons: provider.tvSeasons);
+        } else {
+          return Text(provider.message);
         }
-      ),
+      }),
     );
   }
 }
@@ -72,17 +73,31 @@ class ContentWidget extends StatelessWidget {
             ),
             errorWidget: (context, url, error) => Icon(Icons.error),
           ),
-          Text(tvSeasons.name,style: kHeading6,),
-          SizedBox(height: 16,),
-          Text('Episodes',style: kHeading6,),
+          Text(
+            tvSeasons.name,
+            style: kHeading6,
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text(
+            'Episodes',
+            style: kHeading6,
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: tvSeasons.episodes.length,
               itemBuilder: (context, index) {
                 final episode = tvSeasons.episodes[index];
                 return ListTile(
-                  leading: Text('Episode ${episode.episodeNumber}',style: kSubtitle,),
-                  title: Text(episode.name,style: kSubtitle,),
+                  leading: Text(
+                    'Episode ${episode.episodeNumber}',
+                    style: kSubtitle,
+                  ),
+                  title: Text(
+                    episode.name,
+                    style: kSubtitle,
+                  ),
                 );
               },
             ),
@@ -92,4 +107,3 @@ class ContentWidget extends StatelessWidget {
     );
   }
 }
-

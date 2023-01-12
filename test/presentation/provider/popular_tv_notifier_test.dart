@@ -40,23 +40,21 @@ void main() {
 
   test('should change state to loading when usecase is called', () async {
     // arrange
-    when(mockGetPopularTV.execute())
-        .thenAnswer((_) async => Right(tTVList));
+    when(mockGetPopularTV.execute()).thenAnswer((_) async => Right(tTVList));
     // act
     notifier.fetchPopularTV();
     // assert
-    expect(notifier.popularTVState, RequestState.Loading);
+    expect(notifier.popularTVState, RequestState.loading);
     expect(listenerCallCount, 1);
   });
 
   test('should change tv data when data is gotten successfully', () async {
     // arrange
-    when(mockGetPopularTV.execute())
-        .thenAnswer((_) async => Right(tTVList));
+    when(mockGetPopularTV.execute()).thenAnswer((_) async => Right(tTVList));
     // act
     await notifier.fetchPopularTV();
     // assert
-    expect(notifier.popularTVState, RequestState.Loaded);
+    expect(notifier.popularTVState, RequestState.loaded);
     expect(notifier.popularTV, tTVList);
     expect(listenerCallCount, 2);
   });
@@ -68,7 +66,7 @@ void main() {
     // act
     await notifier.fetchPopularTV();
     // assert
-    expect(notifier.popularTVState, RequestState.Error);
+    expect(notifier.popularTVState, RequestState.error);
     expect(notifier.message, 'Server Failure');
     expect(listenerCallCount, 2);
   });

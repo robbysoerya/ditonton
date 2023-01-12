@@ -89,7 +89,7 @@ class MockPopularMoviesNotifier extends _i1.Mock
           this, Invocation.getter(#getPopularMovies))) as _i2.GetPopularMovies);
   @override
   _i10.RequestState get state => (super.noSuchMethod(Invocation.getter(#state),
-      returnValue: _i10.RequestState.Empty) as _i10.RequestState);
+      returnValue: _i10.RequestState.empty) as _i10.RequestState);
   @override
   List<_i11.Movie> get movies => (super.noSuchMethod(Invocation.getter(#movies),
       returnValue: <_i11.Movie>[]) as List<_i11.Movie>);
@@ -170,7 +170,7 @@ class MockMovieDetailNotifier extends _i1.Mock
   @override
   _i10.RequestState get movieState =>
       (super.noSuchMethod(Invocation.getter(#movieState),
-          returnValue: _i10.RequestState.Empty) as _i10.RequestState);
+          returnValue: _i10.RequestState.empty) as _i10.RequestState);
   @override
   List<_i11.Movie> get movieRecommendations =>
       (super.noSuchMethod(Invocation.getter(#movieRecommendations),
@@ -178,7 +178,7 @@ class MockMovieDetailNotifier extends _i1.Mock
   @override
   _i10.RequestState get recommendationState =>
       (super.noSuchMethod(Invocation.getter(#recommendationState),
-          returnValue: _i10.RequestState.Empty) as _i10.RequestState);
+          returnValue: _i10.RequestState.empty) as _i10.RequestState);
   @override
   String get message =>
       (super.noSuchMethod(Invocation.getter(#message), returnValue: '')

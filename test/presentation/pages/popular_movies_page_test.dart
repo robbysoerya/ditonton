@@ -14,11 +14,15 @@ import 'package:provider/provider.dart';
 import '../../dummy_data/dummy_objects.dart';
 import 'popular_movies_page_test.mocks.dart';
 
-@GenerateMocks([PopularMoviesNotifier,MovieDetailNotifier],customMocks: [
-  MockSpec<NavigatorObserver>(as: #MockNavigatorObserver,
+@GenerateMocks([
+  PopularMoviesNotifier,
+  MovieDetailNotifier
+], customMocks: [
+  MockSpec<NavigatorObserver>(
+    as: #MockNavigatorObserver,
     onMissingStub: OnMissingStub.returnDefault,
-  )])
-
+  )
+])
 void main() {
   late MockPopularMoviesNotifier mockNotifier;
   late MockMovieDetailNotifier mockMovieDetailNotifier;
@@ -31,14 +35,15 @@ void main() {
   });
 
   MaterialPageRoute movieDetailRoute(int id) {
-    return MaterialPageRoute(builder: (_) =>
-    ChangeNotifierProvider<MovieDetailNotifier>.value(
-      value: mockMovieDetailNotifier,
-      child: MovieDetailPage(id: id,
-      ),
-    ),
-        settings: RouteSettings(name: MovieDetailPage.ROUTE_NAME, arguments: id)
-    );
+    return MaterialPageRoute(
+        builder: (_) => ChangeNotifierProvider<MovieDetailNotifier>.value(
+              value: mockMovieDetailNotifier,
+              child: MovieDetailPage(
+                id: id,
+              ),
+            ),
+        settings:
+            RouteSettings(name: MovieDetailPage.ROUTE_NAME, arguments: id));
   }
 
   Widget _makeTestableWidget(Widget body) {
@@ -48,10 +53,11 @@ void main() {
         home: body,
         navigatorObservers: [mockNavigatorObserver],
         onGenerateRoute: (settings) {
-          switch(settings.name) {
+          switch (settings.name) {
             case MovieDetailPage.ROUTE_NAME:
               return movieDetailRoute(settings.arguments as int);
           }
+          return null;
         },
       ),
     );
@@ -59,7 +65,7 @@ void main() {
 
   testWidgets('Page should display center progress bar when loading',
       (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loading);
+    when(mockNotifier.state).thenReturn(RequestState.loading);
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
     final centerFinder = find.byType(Center);
@@ -72,7 +78,7 @@ void main() {
 
   testWidgets('Page should display ListView when data is loaded',
       (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
+    when(mockNotifier.state).thenReturn(RequestState.loaded);
     when(mockNotifier.movies).thenReturn(<Movie>[]);
 
     final listViewFinder = find.byType(ListView);
@@ -84,7 +90,7 @@ void main() {
 
   testWidgets('Page should display text with message when Error',
       (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Error);
+    when(mockNotifier.state).thenReturn(RequestState.error);
     when(mockNotifier.message).thenReturn('Error message');
 
     final textFinder = find.byKey(Key('error_message'));
@@ -93,22 +99,25 @@ void main() {
 
     expect(textFinder, findsOneWidget);
   });
-  
-  testWidgets('should return Movie Card when Request State is Loaded', (tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
+
+  testWidgets('should return Movie Card when Request State is Loaded',
+      (tester) async {
+    when(mockNotifier.state).thenReturn(RequestState.loaded);
     when(mockNotifier.movies).thenReturn([testMovie]);
 
     await tester.pumpWidget(_makeTestableWidget(PopularMoviesPage()));
-    
+
     expect(find.byType(MovieCard), findsOneWidget);
   });
 
-  testWidgets('should navigate to Movie Detail when tap Movie Card', (tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
+  testWidgets('should navigate to Movie Detail when tap Movie Card',
+      (tester) async {
+    when(mockNotifier.state).thenReturn(RequestState.loaded);
     when(mockNotifier.movies).thenReturn([testMovie]);
-    when(mockMovieDetailNotifier.movieState).thenReturn(RequestState.Loaded);
+    when(mockMovieDetailNotifier.movieState).thenReturn(RequestState.loaded);
     when(mockMovieDetailNotifier.movie).thenReturn(testMovieDetail);
-    when(mockMovieDetailNotifier.recommendationState).thenReturn(RequestState.Loaded);
+    when(mockMovieDetailNotifier.recommendationState)
+        .thenReturn(RequestState.loaded);
     when(mockMovieDetailNotifier.movieRecommendations).thenReturn([testMovie]);
     when(mockMovieDetailNotifier.isAddedToWatchlist).thenReturn(false);
 
@@ -119,6 +128,6 @@ void main() {
     await tester.pump();
 
     verify(mockNavigatorObserver.didPush(any, any));
-    expect(find.byType(MovieDetailPage,skipOffstage: false), findsOneWidget);
+    expect(find.byType(MovieDetailPage, skipOffstage: false), findsOneWidget);
   });
 }

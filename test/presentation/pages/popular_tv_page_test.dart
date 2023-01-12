@@ -15,11 +15,15 @@ import 'package:provider/provider.dart';
 import '../../dummy_data/dummy_objects.dart';
 import 'popular_tv_page_test.mocks.dart';
 
-@GenerateMocks([PopularTVNotifier,TVDetailNotifier],customMocks: [
-MockSpec<NavigatorObserver>(as: #MockNavigatorObserver,
-  onMissingStub: OnMissingStub.returnDefault,
-)])
-
+@GenerateMocks([
+  PopularTVNotifier,
+  TVDetailNotifier
+], customMocks: [
+  MockSpec<NavigatorObserver>(
+    as: #MockNavigatorObserver,
+    onMissingStub: OnMissingStub.returnDefault,
+  )
+])
 void main() {
   late MockPopularTVNotifier mockNotifier;
   late MockTVDetailNotifier mockTVDetailNotifier;
@@ -32,14 +36,14 @@ void main() {
   });
 
   MaterialPageRoute tvDetailRoute(int id) {
-    return MaterialPageRoute(builder: (_) =>
-    ChangeNotifierProvider<TVDetailNotifier>.value(
-      value: mockTVDetailNotifier,
-      child: TVDetailPage(id: id,
-      ),
-    ),
-      settings: RouteSettings(name: TVDetailPage.ROUTE_NAME, arguments: id)
-    );
+    return MaterialPageRoute(
+        builder: (_) => ChangeNotifierProvider<TVDetailNotifier>.value(
+              value: mockTVDetailNotifier,
+              child: TVDetailPage(
+                id: id,
+              ),
+            ),
+        settings: RouteSettings(name: TVDetailPage.ROUTE_NAME, arguments: id));
   }
 
   Widget _makeTestableWidget(Widget body) {
@@ -59,50 +63,52 @@ void main() {
             case TVDetailPage.ROUTE_NAME:
               return tvDetailRoute(settings.arguments as int);
           }
+          return null;
         },
       ),
     );
   }
 
   testWidgets('Page should display center progress bar when loading',
-          (WidgetTester tester) async {
-        when(mockNotifier.popularTVState).thenReturn(RequestState.Loading);
+      (WidgetTester tester) async {
+    when(mockNotifier.popularTVState).thenReturn(RequestState.loading);
 
-        final progressBarFinder = find.byType(CircularProgressIndicator);
-        final centerFinder = find.byType(Center);
+    final progressBarFinder = find.byType(CircularProgressIndicator);
+    final centerFinder = find.byType(Center);
 
-        await tester.pumpWidget(_makeTestableWidget(PopularTVPage()));
+    await tester.pumpWidget(_makeTestableWidget(PopularTVPage()));
 
-        expect(centerFinder, findsOneWidget);
-        expect(progressBarFinder, findsOneWidget);
-      });
+    expect(centerFinder, findsOneWidget);
+    expect(progressBarFinder, findsOneWidget);
+  });
 
   testWidgets('Page should display ListView when data is loaded',
-          (WidgetTester tester) async {
-        when(mockNotifier.popularTVState).thenReturn(RequestState.Loaded);
-        when(mockNotifier.popularTV).thenReturn(<TV>[]);
+      (WidgetTester tester) async {
+    when(mockNotifier.popularTVState).thenReturn(RequestState.loaded);
+    when(mockNotifier.popularTV).thenReturn(<TV>[]);
 
-        final listViewFinder = find.byType(ListView);
+    final listViewFinder = find.byType(ListView);
 
-        await tester.pumpWidget(_makeTestableWidget(PopularTVPage()));
+    await tester.pumpWidget(_makeTestableWidget(PopularTVPage()));
 
-        expect(listViewFinder, findsOneWidget);
-      });
+    expect(listViewFinder, findsOneWidget);
+  });
 
   testWidgets('Page should display text with message when Error',
-          (WidgetTester tester) async {
-        when(mockNotifier.popularTVState).thenReturn(RequestState.Error);
-        when(mockNotifier.message).thenReturn('Error message');
+      (WidgetTester tester) async {
+    when(mockNotifier.popularTVState).thenReturn(RequestState.error);
+    when(mockNotifier.message).thenReturn('Error message');
 
-        final textFinder = find.byKey(Key('error_message'));
+    final textFinder = find.byKey(Key('error_message'));
 
-        await tester.pumpWidget(_makeTestableWidget(PopularTVPage()));
+    await tester.pumpWidget(_makeTestableWidget(PopularTVPage()));
 
-        expect(textFinder, findsOneWidget);
-      });
+    expect(textFinder, findsOneWidget);
+  });
 
-  testWidgets('should return TV Card when Request State is Loaded', (tester) async {
-    when(mockNotifier.popularTVState).thenReturn(RequestState.Loaded);
+  testWidgets('should return TV Card when Request State is Loaded',
+      (tester) async {
+    when(mockNotifier.popularTVState).thenReturn(RequestState.loaded);
     when(mockNotifier.popularTV).thenReturn([testTV]);
 
     await tester.pumpWidget(_makeTestableWidget(PopularTVPage()));
@@ -111,11 +117,12 @@ void main() {
   });
 
   testWidgets('should navigate to TV Detail when tap TV Card', (tester) async {
-    when(mockNotifier.popularTVState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.popularTVState).thenReturn(RequestState.loaded);
     when(mockNotifier.popularTV).thenReturn([testTV]);
-    when(mockTVDetailNotifier.tvDetailState).thenReturn(RequestState.Loaded);
+    when(mockTVDetailNotifier.tvDetailState).thenReturn(RequestState.loaded);
     when(mockTVDetailNotifier.tvDetail).thenReturn(testTVDetail);
-    when(mockTVDetailNotifier.tvRecommendationsState).thenReturn(RequestState.Loaded);
+    when(mockTVDetailNotifier.tvRecommendationsState)
+        .thenReturn(RequestState.loaded);
     when(mockTVDetailNotifier.tvRecommendations).thenReturn([testTV]);
     when(mockTVDetailNotifier.isAddedToWatchlist).thenReturn(false);
 
@@ -126,6 +133,6 @@ void main() {
     await tester.pump();
 
     verify(mockNavigatorObserver.didPush(any, any));
-    expect(find.byType(TVDetailPage,skipOffstage: false), findsOneWidget);
+    expect(find.byType(TVDetailPage, skipOffstage: false), findsOneWidget);
   });
 }

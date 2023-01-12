@@ -45,8 +45,8 @@ void main() {
       saveWatchlist: mockSaveWatchlist,
       removeWatchlist: mockRemoveWatchlist,
     )..addListener(() {
-      listenerCallCount += 1;
-    });
+        listenerCallCount += 1;
+      });
   });
 
   final tId = 1;
@@ -87,7 +87,7 @@ void main() {
       // act
       provider.fetchTVDetail(tId);
       // assert
-      expect(provider.tvDetailState, RequestState.Loading);
+      expect(provider.tvDetailState, RequestState.loading);
       expect(listenerCallCount, 1);
     });
 
@@ -97,21 +97,21 @@ void main() {
       // act
       await provider.fetchTVDetail(tId);
       // assert
-      expect(provider.tvDetailState, RequestState.Loaded);
+      expect(provider.tvDetailState, RequestState.loaded);
       expect(provider.tvDetail, testTVDetail);
       expect(listenerCallCount, 3);
     });
 
     test('should change recommendation tv when data is gotten successfully',
-            () async {
-          // arrange
-          _arrangeUsecase();
-          // act
-          await provider.fetchTVDetail(tId);
-          // assert
-          expect(provider.tvDetailState, RequestState.Loaded);
-          expect(provider.tvRecommendations, tTVList);
-        });
+        () async {
+      // arrange
+      _arrangeUsecase();
+      // act
+      await provider.fetchTVDetail(tId);
+      // assert
+      expect(provider.tvDetailState, RequestState.loaded);
+      expect(provider.tvRecommendations, tTVList);
+    });
   });
 
   group('Get TV Recommendations', () {
@@ -126,15 +126,15 @@ void main() {
     });
 
     test('should update recommendation state when data is gotten successfully',
-            () async {
-          // arrange
-          _arrangeUsecase();
-          // act
-          await provider.fetchTVDetail(tId);
-          // assert
-          expect(provider.tvRecommendationsState, RequestState.Loaded);
-          expect(provider.tvRecommendations, tTVList);
-        });
+        () async {
+      // arrange
+      _arrangeUsecase();
+      // act
+      await provider.fetchTVDetail(tId);
+      // assert
+      expect(provider.tvRecommendationsState, RequestState.loaded);
+      expect(provider.tvRecommendations, tTVList);
+    });
 
     test('should update error message when request in successful', () async {
       // arrange
@@ -145,7 +145,7 @@ void main() {
       // act
       await provider.fetchTVDetail(tId);
       // assert
-      expect(provider.tvRecommendationsState, RequestState.Error);
+      expect(provider.tvRecommendationsState, RequestState.error);
       expect(provider.message, 'Failed');
     });
   });
@@ -213,7 +213,8 @@ void main() {
     });
   });
 
-  test('should update watchlist message when remove watchlist failed', () async {
+  test('should update watchlist message when remove watchlist failed',
+      () async {
     // arrange
     when(mockRemoveWatchlist.execute(testTVDetail))
         .thenAnswer((_) async => Left(DatabaseFailure('Failed')));
@@ -224,7 +225,7 @@ void main() {
     // assert
     expect(provider.watchlistMessage, 'Failed');
     expect(listenerCallCount, 1);
-});
+  });
 
   group('on Error', () {
     test('should return error when data is unsuccessful', () async {
@@ -236,7 +237,7 @@ void main() {
       // act
       await provider.fetchTVDetail(tId);
       // assert
-      expect(provider.tvDetailState, RequestState.Error);
+      expect(provider.tvDetailState, RequestState.error);
       expect(provider.message, 'Server Failure');
       expect(listenerCallCount, 2);
     });

@@ -38,11 +38,15 @@ class SearchTVPage extends StatelessWidget {
             ),
             Consumer<TVSearchNotifier>(
               builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
+                if (data.state == RequestState.loading) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (data.state == RequestState.Loaded) {
+                } else if (data.state == RequestState.empty) {
+                  return Center(
+                    child: Text('Data not found'),
+                  );
+                } else if (data.state == RequestState.loaded) {
                   final result = data.searchResult;
                   return Expanded(
                     child: ListView.builder(

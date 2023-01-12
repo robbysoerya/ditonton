@@ -52,7 +52,7 @@ class MockTVSeasonDetailNotifier extends _i1.Mock
           as _i2.GetTVSeasonDetail);
   @override
   _i5.RequestState get state => (super.noSuchMethod(Invocation.getter(#state),
-      returnValue: _i5.RequestState.Empty) as _i5.RequestState);
+      returnValue: _i5.RequestState.empty) as _i5.RequestState);
   @override
   _i3.TVSeasonsDetail get tvSeasons => (super.noSuchMethod(
           Invocation.getter(#tvSeasons),

@@ -30,7 +30,7 @@ void main() {
     genreIds: [14, 28],
     id: 557,
     overview:
-    'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     voteAverage: 7.2,
@@ -47,21 +47,21 @@ void main() {
       // act
       provider.fetchTVSearch(tQuery);
       // assert
-      expect(provider.state, RequestState.Loading);
+      expect(provider.state, RequestState.loading);
     });
 
     test('should change search result data when data is gotten successfully',
-            () async {
-          // arrange
-          when(mockSearchTV.execute(tQuery))
-              .thenAnswer((_) async => Right(tTVList));
-          // act
-          await provider.fetchTVSearch(tQuery);
-          // assert
-          expect(provider.state, RequestState.Loaded);
-          expect(provider.searchResult, tTVList);
-          expect(listenerCallCount, 2);
-        });
+        () async {
+      // arrange
+      when(mockSearchTV.execute(tQuery))
+          .thenAnswer((_) async => Right(tTVList));
+      // act
+      await provider.fetchTVSearch(tQuery);
+      // assert
+      expect(provider.state, RequestState.loaded);
+      expect(provider.searchResult, tTVList);
+      expect(listenerCallCount, 2);
+    });
 
     test('should return error when data is unsuccessful', () async {
       // arrange
@@ -70,7 +70,7 @@ void main() {
       // act
       await provider.fetchTVSearch(tQuery);
       // assert
-      expect(provider.state, RequestState.Error);
+      expect(provider.state, RequestState.error);
       expect(provider.message, 'Server Failure');
       expect(listenerCallCount, 2);
     });

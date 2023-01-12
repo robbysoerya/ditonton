@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/data/models/movie_detail_model.dart';
 import 'package:ditonton/data/models/movie_model.dart';
 import 'package:ditonton/data/models/movie_response.dart';
@@ -16,8 +17,6 @@ abstract class MovieRemoteDataSource {
 }
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
-  static const API_KEY = 'api_key=b9954067298c35b6301e1ed52ec1b307';
-  static const BASE_URL = 'https://api.themoviedb.org/3';
 
   final http.Client client;
 

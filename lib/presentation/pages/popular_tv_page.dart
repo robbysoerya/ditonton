@@ -30,11 +30,11 @@ class _PopularTVPageState extends State<PopularTVPage> {
         padding: const EdgeInsets.all(8.0),
         child: Consumer<PopularTVNotifier>(
           builder: (context, data, child) {
-            if (data.popularTVState == RequestState.Loading) {
+            if (data.popularTVState == RequestState.loading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.popularTVState == RequestState.Loaded) {
+            } else if (data.popularTVState == RequestState.loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = data.popularTV[index];

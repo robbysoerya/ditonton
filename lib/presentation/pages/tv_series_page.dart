@@ -55,11 +55,11 @@ class _TVSeriesPageState extends State<TVSeriesPage> {
               ),
               Consumer<TVListNotifier>(builder: (context, data, child) {
                 final state = data.onTheAirTVState;
-                if (state == RequestState.Loading) {
+                if (state == RequestState.loading) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.Loaded) {
+                } else if (state == RequestState.loaded) {
                   return TVList(data.onTheAirTV);
                 } else {
                   return Text('Failed');
@@ -72,11 +72,11 @@ class _TVSeriesPageState extends State<TVSeriesPage> {
               ),
               Consumer<TVListNotifier>(builder: (context, data, child) {
                 final state = data.popularTVState;
-                if (state == RequestState.Loading) {
+                if (state == RequestState.loading) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.Loaded) {
+                } else if (state == RequestState.loaded) {
                   return TVList(data.popularTV);
                 } else {
                   return Text('Failed');
@@ -89,11 +89,11 @@ class _TVSeriesPageState extends State<TVSeriesPage> {
               ),
               Consumer<TVListNotifier>(builder: (context, data, child) {
                 final state = data.topRatedTVState;
-                if (state == RequestState.Loading) {
+                if (state == RequestState.loading) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.Loaded) {
+                } else if (state == RequestState.loaded) {
                   return TVList(data.topRatedTV);
                 } else {
                   return Text('Failed');
