@@ -6,7 +6,7 @@
 import 'dart:async' as _i12;
 import 'dart:ui' as _i13;
 
-import 'package:ditonton/common/state_enum.dart' as _i11;
+import '../../../core/lib/common/state_enum.dart' as _i11;
 import 'package:ditonton/domain/entities/tv.dart' as _i10;
 import 'package:ditonton/domain/entities/tv_detail.dart' as _i8;
 import 'package:ditonton/domain/usecases/get_popular_tv.dart' as _i2;

@@ -6,7 +6,7 @@
 import 'dart:async' as _i6;
 import 'dart:ui' as _i7;
 
-import 'package:ditonton/common/state_enum.dart' as _i5;
+import '../../../core/lib/common/state_enum.dart' as _i5;
 import 'package:ditonton/domain/entities/tv_seasons_detail.dart' as _i3;
 import 'package:ditonton/domain/usecases/get_tv_season_detail.dart' as _i2;
 import 'package:ditonton/presentation/provider/tv_season_detail_notifier.dart'

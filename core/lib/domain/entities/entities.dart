@@ -1,0 +1,9 @@
+export 'episodes.dart';
+export 'genre.dart';
+export 'last_episode_to_air.dart';
+export 'movie.dart';
+export 'movie_detail.dart';
+export 'seasons.dart';
+export 'tv.dart';
+export 'tv_detail.dart';
+export 'tv_seasons_detail.dart';
