@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const tMovieTable = MovieTable(
-    id: 1, 
-    title: "title", 
-    posterPath: "posterPath", 
+    id: 1,
+    title: "title",
+    posterPath: "posterPath",
     overview: "overview",
   );
 

@@ -113,7 +113,8 @@ void main() {
 
   testWidgets('should navigate to TV Detail when tap TV Card', (tester) async {
     when(mockNotifier.stream).thenAnswer((_) => Stream.fromIterable([]));
-    when(mockTVDetailNotifier.stream).thenAnswer((_) => Stream.fromIterable([]));
+    when(mockTVDetailNotifier.stream)
+        .thenAnswer((_) => Stream.fromIterable([]));
     when(mockNotifier.state).thenReturn(PopularTVSuccess([testTV]));
     when(mockTVDetailNotifier.state).thenReturn(
       TVDetailSuccess(

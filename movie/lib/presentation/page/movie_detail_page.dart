@@ -117,8 +117,6 @@ class _DetailContent extends StatelessWidget {
                                       .read<MovieDetailBloc>()
                                       .add(OnRemoveWatchList(movie));
                                 }
-
-                               
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,

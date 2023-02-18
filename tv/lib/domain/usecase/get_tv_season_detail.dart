@@ -8,6 +8,6 @@ class GetTVSeasonDetail {
   GetTVSeasonDetail(this.repository);
 
   Future<Either<Failure, TVSeasonsDetail>> execute(int id, int season) {
-    return repository.getSeasonDetail(id,season);
+    return repository.getSeasonDetail(id, season);
   }
 }

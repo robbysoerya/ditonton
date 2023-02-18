@@ -8,6 +8,7 @@ abstract class PopularMoviesState extends Equatable {
 }
 
 class PopularMoviesLoading extends PopularMoviesState {}
+
 class PopularMoviesEmpty extends PopularMoviesState {}
 
 class PopularMoviesError extends PopularMoviesState {

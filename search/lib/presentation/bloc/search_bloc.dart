@@ -26,7 +26,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     OnQueryChanged event,
     Emitter<SearchState> emit,
   ) async {
-    emit(SearchLoading()); 
+    emit(SearchLoading());
     final result = await _searchMovies.execute(event.query);
     result.fold(
       (failure) => emit(SearchError(message: failure.message)),

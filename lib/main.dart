@@ -20,9 +20,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  log('${FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled}');
   di.init();
-  FirebaseCrashlytics.instance.crash();
+  FirebaseCrashlytics.instance.recordFlutterError(
+    FlutterErrorDetails(
+      exception: FlutterError,
+    ),
+  );
   runApp(MyApp());
 }
 

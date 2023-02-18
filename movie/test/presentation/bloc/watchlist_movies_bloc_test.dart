@@ -15,9 +15,7 @@ void main() {
   late WatchListMoviesBloc watchListMoviesBloc;
   setUp(() {
     mockGetWatchlistMovies = MockGetWatchlistMovies();
-    watchListMoviesBloc = WatchListMoviesBloc(
-      mockGetWatchlistMovies
-    );
+    watchListMoviesBloc = WatchListMoviesBloc(mockGetWatchlistMovies);
   });
 
   test('initial state should be [WatchListMoviesLoading]', (() {

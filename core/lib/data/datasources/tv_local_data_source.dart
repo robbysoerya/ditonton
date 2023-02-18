@@ -54,7 +54,7 @@ class TVLocalDataSourceImpl implements TVLocalDataSource {
   @override
   Future<void> cacheOnTheAirTV(List<TVTable> tv) async {
     await databaseHelper.clearCacheTV('on the air');
-    await databaseHelper.insertCacheTransactionTV(tv,'on the air');
+    await databaseHelper.insertCacheTransactionTV(tv, 'on the air');
   }
 
   @override

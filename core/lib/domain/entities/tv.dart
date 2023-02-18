@@ -16,23 +16,21 @@ class TV extends Equatable {
   num? voteAverage;
   int? voteCount;
 
-
   TV({
-   this.backdropPath,
-   this.firstAirDate,
-   this.genreIds,
-   this.id,
-   this.name,
-   this.originCountry,
-   this.originalLanguage,
-   this.originalName,
-   this.overview,
-   this.popularity,
-   this.posterPath,
-   this.voteAverage,
-   this.voteCount,
-});
-
+    this.backdropPath,
+    this.firstAirDate,
+    this.genreIds,
+    this.id,
+    this.name,
+    this.originCountry,
+    this.originalLanguage,
+    this.originalName,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.voteAverage,
+    this.voteCount,
+  });
 
   TV.watchList({
     required this.id,
@@ -43,18 +41,18 @@ class TV extends Equatable {
 
   @override
   List<Object?> get props => [
-    backdropPath,
-    firstAirDate,
-    genreIds,
-    id,
-    name,
-    originCountry,
-    originalLanguage,
-    originalName,
-    overview,
-    popularity,
-    posterPath,
-    voteAverage,
-    voteCount,
-  ];
+        backdropPath,
+        firstAirDate,
+        genreIds,
+        id,
+        name,
+        originCountry,
+        originalLanguage,
+        originalName,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage,
+        voteCount,
+      ];
 }

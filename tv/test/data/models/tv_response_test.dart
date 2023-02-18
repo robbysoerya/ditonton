@@ -13,15 +13,14 @@ void main() {
     voteCount: 1,
     firstAirDate: 'firstAirDate',
     name: 'name',
-    originCountry: ['1','2'],
+    originCountry: ['1', '2'],
     originalLanguage: 'originalLanguage',
     originalName: 'originalName',
   );
 
   const tTVResponseModel = TVResponse(tvList: [tTVModel]);
   final tTVResponseMap = {
-    "results":
-    [
+    "results": [
       {
         "backdrop_path": 'backdropPath',
         "first_air_date": 'firstAirDate',
@@ -45,7 +44,11 @@ void main() {
     expect(result, tTVResponseMap);
   });
 
-  test('should be equals object of TV Response', () async  {
-    expect(tTVResponseModel.props, equals([[tTVModel]]));
+  test('should be equals object of TV Response', () async {
+    expect(
+        tTVResponseModel.props,
+        equals([
+          [tTVModel]
+        ]));
   });
 }

@@ -24,44 +24,41 @@ void main() {
   });
 
   blocTest<PopularTVBloc, PopularTVState>(
-    'emits [PopularTVError] when PopularTVStarted is added.',
-    build: () {
-      when(mockGetPopularTV.execute())
-          .thenAnswer((_) async => const Left(ServerFailure('error')));
-      return popularTVBloc;
-    },
-    act: (bloc) => bloc.add(PopularTVStarted()),
-    expect: () => [
-      PopularTVLoading(),
-      const PopularTVError('error'),
-    ]
-  );
+      'emits [PopularTVError] when PopularTVStarted is added.',
+      build: () {
+        when(mockGetPopularTV.execute())
+            .thenAnswer((_) async => const Left(ServerFailure('error')));
+        return popularTVBloc;
+      },
+      act: (bloc) => bloc.add(PopularTVStarted()),
+      expect: () => [
+            PopularTVLoading(),
+            const PopularTVError('error'),
+          ]);
 
   blocTest<PopularTVBloc, PopularTVState>(
-    'emits [PopularTVEmpty] when PopularTVStarted is added but empty',
-    build: () {
-      when(mockGetPopularTV.execute())
-          .thenAnswer((_) async => const Right([]));
-      return popularTVBloc;
-    },
-    act: (bloc) => bloc.add(PopularTVStarted()),
-    expect: () => [
-      PopularTVLoading(),
-      PopularTVEmpty(),
-    ]
-  );
+      'emits [PopularTVEmpty] when PopularTVStarted is added but empty',
+      build: () {
+        when(mockGetPopularTV.execute())
+            .thenAnswer((_) async => const Right([]));
+        return popularTVBloc;
+      },
+      act: (bloc) => bloc.add(PopularTVStarted()),
+      expect: () => [
+            PopularTVLoading(),
+            PopularTVEmpty(),
+          ]);
 
   blocTest<PopularTVBloc, PopularTVState>(
-    'emits [PopularTVSuccess] when PopularTVStarted is added.',
-    build: () {
-      when(mockGetPopularTV.execute())
-          .thenAnswer((_) async => Right([testTV]));
-      return popularTVBloc;
-    },
-    act: (bloc) => bloc.add(PopularTVStarted()),
-    expect: () => [
-      PopularTVLoading(),
-      PopularTVSuccess([testTV]),
-    ]
-  );
+      'emits [PopularTVSuccess] when PopularTVStarted is added.',
+      build: () {
+        when(mockGetPopularTV.execute())
+            .thenAnswer((_) async => Right([testTV]));
+        return popularTVBloc;
+      },
+      act: (bloc) => bloc.add(PopularTVStarted()),
+      expect: () => [
+            PopularTVLoading(),
+            PopularTVSuccess([testTV]),
+          ]);
 }

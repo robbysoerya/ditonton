@@ -16,9 +16,7 @@ void main() {
   late WatchListTVBloc watchListTVBloc;
   setUp(() {
     mockGetWatchlistTV = MockGetWatchlistTV();
-    watchListTVBloc = WatchListTVBloc(
-      mockGetWatchlistTV
-    );
+    watchListTVBloc = WatchListTVBloc(mockGetWatchlistTV);
   });
 
   test('initial state should be [WatchListTVLoading]', (() {

@@ -69,7 +69,10 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<void> insertCacheTransaction(List<MovieTable> movies, String category,) async {
+  Future<void> insertCacheTransaction(
+    List<MovieTable> movies,
+    String category,
+  ) async {
     final db = await database;
     db!.transaction((txn) async {
       for (final movie in movies) {
@@ -82,7 +85,7 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getCacheMovies(String category) async {
     final db = await database;
-    final List<Map<String,dynamic>> results = await db!.query(
+    final List<Map<String, dynamic>> results = await db!.query(
       _tblCache,
       where: 'category = ?',
       whereArgs: [category],
@@ -136,7 +139,10 @@ class DatabaseHelper {
   }
 
   //TV
-  Future<void> insertCacheTransactionTV(List<TVTable> tvList, String category,) async {
+  Future<void> insertCacheTransactionTV(
+    List<TVTable> tvList,
+    String category,
+  ) async {
     final db = await database;
     db!.transaction((txn) async {
       for (final tv in tvList) {
@@ -149,7 +155,7 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getCacheTV(String category) async {
     final db = await database;
-    final List<Map<String,dynamic>> results = await db!.query(
+    final List<Map<String, dynamic>> results = await db!.query(
       _tblCacheTV,
       where: 'category = ?',
       whereArgs: [category],

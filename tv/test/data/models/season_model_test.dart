@@ -3,13 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const tSeasonModel = SeasonsModel(
-      airDate: 'airDate',
-      episodeCount: 1,
-      id: 1,
-      name: 'name',
-      overview: 'overview',
-      posterPath: 'posterPath',
-      seasonNumber: 1,
+    airDate: 'airDate',
+    episodeCount: 1,
+    id: 1,
+    name: 'name',
+    overview: 'overview',
+    posterPath: 'posterPath',
+    seasonNumber: 1,
   );
 
   final tSeasonMap = {

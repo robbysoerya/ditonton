@@ -49,7 +49,7 @@ void main() {
     "vote_average": 1.0,
     "vote_count": 1,
   };
-  
+
   test('should be map of Movie Detail', () async {
     final result = tMovieDetailModel.toJson();
     expect(result, tMovieDetailMap);

@@ -1,7 +1,7 @@
 import 'package:core/domain/domain.dart';
 import 'package:equatable/equatable.dart';
 
-class EpisodesModel extends Equatable{
+class EpisodesModel extends Equatable {
   const EpisodesModel({
     required this.airDate,
     required this.episodeNumber,
@@ -17,8 +17,7 @@ class EpisodesModel extends Equatable{
     required this.voteCount,
   });
 
-  factory EpisodesModel.fromJson(Map<String, dynamic> json) =>
-      EpisodesModel(
+  factory EpisodesModel.fromJson(Map<String, dynamic> json) => EpisodesModel(
         airDate: json["air_date"],
         episodeNumber: json["episode_number"],
         id: json["id"],
@@ -65,35 +64,34 @@ class EpisodesModel extends Equatable{
 
   Episodes toEntity() {
     return Episodes(
-        airDate: airDate,
-        episodeNumber: episodeNumber,
-        id: id,
-        name: name,
-        overview: overview,
-        productionCode: productionCode,
-        runtime: runtime,
-        seasonNumber: seasonNumber,
-        showId: showId,
-        stillPath: stillPath,
-        voteAverage: voteAverage,
-        voteCount: voteCount,
+      airDate: airDate,
+      episodeNumber: episodeNumber,
+      id: id,
+      name: name,
+      overview: overview,
+      productionCode: productionCode,
+      runtime: runtime,
+      seasonNumber: seasonNumber,
+      showId: showId,
+      stillPath: stillPath,
+      voteAverage: voteAverage,
+      voteCount: voteCount,
     );
   }
 
   @override
   List<Object?> get props => [
-    airDate,
-    episodeNumber,
-    id,
-    name,
-    overview,
-    productionCode,
-    runtime,
-    seasonNumber,
-    showId,
-    stillPath,
-    voteAverage,
-    voteCount,
-  ];
-
+        airDate,
+        episodeNumber,
+        id,
+        name,
+        overview,
+        productionCode,
+        runtime,
+        seasonNumber,
+        showId,
+        stillPath,
+        voteAverage,
+        voteCount,
+      ];
 }

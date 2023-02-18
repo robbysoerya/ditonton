@@ -23,44 +23,41 @@ void main() {
   });
 
   blocTest<PopularMoviesBloc, PopularMoviesState>(
-    'emits [PopularMoviesError] when PopularMoviesStarted is added.',
-    build: () {
-      when(mockGetPopularMovies.execute())
-          .thenAnswer((_) async => const Left(ServerFailure('error')));
-      return popularMoviesBloc;
-    },
-    act: (bloc) => bloc.add(PopularMoviesStarted()),
-    expect: () => [
-      PopularMoviesLoading(),
-      const PopularMoviesError('error'),
-    ]
-  );
+      'emits [PopularMoviesError] when PopularMoviesStarted is added.',
+      build: () {
+        when(mockGetPopularMovies.execute())
+            .thenAnswer((_) async => const Left(ServerFailure('error')));
+        return popularMoviesBloc;
+      },
+      act: (bloc) => bloc.add(PopularMoviesStarted()),
+      expect: () => [
+            PopularMoviesLoading(),
+            const PopularMoviesError('error'),
+          ]);
 
   blocTest<PopularMoviesBloc, PopularMoviesState>(
-    'emits [PopularMoviesEmpty] when PopularMoviesStarted is added but empty',
-    build: () {
-      when(mockGetPopularMovies.execute())
-          .thenAnswer((_) async => const Right([]));
-      return popularMoviesBloc;
-    },
-    act: (bloc) => bloc.add(PopularMoviesStarted()),
-    expect: () => [
-      PopularMoviesLoading(),
-      PopularMoviesEmpty(),
-    ]
-  );
+      'emits [PopularMoviesEmpty] when PopularMoviesStarted is added but empty',
+      build: () {
+        when(mockGetPopularMovies.execute())
+            .thenAnswer((_) async => const Right([]));
+        return popularMoviesBloc;
+      },
+      act: (bloc) => bloc.add(PopularMoviesStarted()),
+      expect: () => [
+            PopularMoviesLoading(),
+            PopularMoviesEmpty(),
+          ]);
 
   blocTest<PopularMoviesBloc, PopularMoviesState>(
-    'emits [PopularMoviesSuccess] when PopularMoviesStarted is added.',
-    build: () {
-      when(mockGetPopularMovies.execute())
-          .thenAnswer((_) async => Right([testMovie]));
-      return popularMoviesBloc;
-    },
-    act: (bloc) => bloc.add(PopularMoviesStarted()),
-    expect: () => [
-      PopularMoviesLoading(),
-      PopularMoviesSuccess([testMovie]),
-    ]
-  );
+      'emits [PopularMoviesSuccess] when PopularMoviesStarted is added.',
+      build: () {
+        when(mockGetPopularMovies.execute())
+            .thenAnswer((_) async => Right([testMovie]));
+        return popularMoviesBloc;
+      },
+      act: (bloc) => bloc.add(PopularMoviesStarted()),
+      expect: () => [
+            PopularMoviesLoading(),
+            PopularMoviesSuccess([testMovie]),
+          ]);
 }

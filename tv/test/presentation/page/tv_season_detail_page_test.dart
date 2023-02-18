@@ -82,7 +82,8 @@ void main() {
       (tester) async {
     when(mockNotifier.stream).thenAnswer((_) => Stream.fromIterable([]));
     //arrange
-    when(mockNotifier.state).thenReturn(const TvSeasonDetailSuccess(testTVSeasonDetail));
+    when(mockNotifier.state)
+        .thenReturn(const TvSeasonDetailSuccess(testTVSeasonDetail));
     //act
     await tester
         .pumpWidget(makeTestableWidget(const TVSeasonDetailPage(args: args)));

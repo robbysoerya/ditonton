@@ -1,17 +1,17 @@
 import 'package:core/core.dart';
 
 const testLastEpisodeToAir = LastEpisodeToAir(
-    airDate: 'airDate',
-    episodeNumber: 1,
-    id: 1,
-    name: 'name',
-    overview: 'overview',
-    productionCode: 'productionCode',
-    seasonNumber: 1,
-    showId: 1,
-    stillPath: 'stillPath',
-    voteAverage: 1,
-    voteCount: 1,
+  airDate: 'airDate',
+  episodeNumber: 1,
+  id: 1,
+  name: 'name',
+  overview: 'overview',
+  productionCode: 'productionCode',
+  seasonNumber: 1,
+  showId: 1,
+  stillPath: 'stillPath',
+  voteAverage: 1,
+  voteCount: 1,
 );
 
 const testLastEpisodeToAirModel = LastEpisodeToAirModel(
@@ -29,13 +29,13 @@ const testLastEpisodeToAirModel = LastEpisodeToAirModel(
 );
 
 const testSeason = Seasons(
-    airDate: 'airDate',
-    episodeCount: 1,
-    id: 1,
-    name: 'name',
-    overview: 'overview',
-    posterPath: 'posterPath',
-    seasonNumber: 1,
+  airDate: 'airDate',
+  episodeCount: 1,
+  id: 1,
+  name: 'name',
+  overview: 'overview',
+  posterPath: 'posterPath',
+  seasonNumber: 1,
 );
 
 const testSeasonModel = SeasonsModel(
@@ -53,7 +53,7 @@ final testTV = TV(
   genreIds: const [14, 28],
   id: 557,
   overview:
-  'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+      'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
   popularity: 60.441,
   posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
   voteAverage: 7.2,
@@ -63,31 +63,31 @@ final testTV = TV(
 final tesTVList = [testTV];
 
 const testTVDetail = TVDetail(
-    adult: false,
-    backdropPath: 'backdropPath',
-    episodeRunTime: [14],
-    firstAirDate: 'firstAirDate',
-    genres: [Genre(id: 1, name: 'name')],
-    homepage: 'homepage',
-    id: 1,
-    inProduction: false,
-    lastAirDate: 'lastAirDate',
-    lastEpisodeToAir: testLastEpisodeToAir,
-    name: 'name',
-    numberOfEpisodes: 1,
-    numberOfSeasons: 1,
-    originCountry: ['en'],
-    originalLanguage: 'originalLanguage',
-    originalName: 'originalName',
-    overview: 'overview',
-    popularity: 1,
-    posterPath: 'posterPath',
-    seasons: [testSeason],
-    status: 'status',
-    tagline: 'tagline',
-    type: 'type',
-    voteAverage: 1,
-    voteCount: 1,
+  adult: false,
+  backdropPath: 'backdropPath',
+  episodeRunTime: [14],
+  firstAirDate: 'firstAirDate',
+  genres: [Genre(id: 1, name: 'name')],
+  homepage: 'homepage',
+  id: 1,
+  inProduction: false,
+  lastAirDate: 'lastAirDate',
+  lastEpisodeToAir: testLastEpisodeToAir,
+  name: 'name',
+  numberOfEpisodes: 1,
+  numberOfSeasons: 1,
+  originCountry: ['en'],
+  originalLanguage: 'originalLanguage',
+  originalName: 'originalName',
+  overview: 'overview',
+  popularity: 1,
+  posterPath: 'posterPath',
+  seasons: [testSeason],
+  status: 'status',
+  tagline: 'tagline',
+  type: 'type',
+  voteAverage: 1,
+  voteCount: 1,
 );
 
 const testTVDetailResponse = TVDetailResponse(
@@ -168,18 +168,18 @@ final testTVMap = {
 };
 
 const testTVSeasonEpisode = Episodes(
-    airDate: 'airDate',
-    episodeNumber: 1,
-    id: 1,
-    name: 'name',
-    overview: 'overview',
-    productionCode: 'productionCode',
-    runtime: 20,
-    seasonNumber: 1,
-    showId: 1,
-    stillPath: 'stillPath',
-    voteAverage: 1,
-    voteCount: 1,
+  airDate: 'airDate',
+  episodeNumber: 1,
+  id: 1,
+  name: 'name',
+  overview: 'overview',
+  productionCode: 'productionCode',
+  runtime: 20,
+  seasonNumber: 1,
+  showId: 1,
+  stillPath: 'stillPath',
+  voteAverage: 1,
+  voteCount: 1,
 );
 
 const testTVSeasonEpisodeModel = EpisodesModel(
@@ -198,23 +198,21 @@ const testTVSeasonEpisodeModel = EpisodesModel(
 );
 
 const testTVSeasonDetail = TVSeasonsDetail(
-    id: 1,
-    airDate: 'airDate',
-    episodes: [testTVSeasonEpisode],
-    name: 'name',
-    overview: 'overview',
-    posterPath: 'posterPath',
-    seasonNumber: 1,
+  id: 1,
+  airDate: 'airDate',
+  episodes: [testTVSeasonEpisode],
+  name: 'name',
+  overview: 'overview',
+  posterPath: 'posterPath',
+  seasonNumber: 1,
 );
 
 const testTVSeasonDetailModel = TvSeasonsDetailModel(
-    id: 1,
-    airDate: 'airDate',
-    episodes: [testTVSeasonEpisodeModel],
-    name: 'name',
-    overview: 'overview',
-    posterPath: 'posterPath',
-    seasonNumber: 1,
+  id: 1,
+  airDate: 'airDate',
+  episodes: [testTVSeasonEpisodeModel],
+  name: 'name',
+  overview: 'overview',
+  posterPath: 'posterPath',
+  seasonNumber: 1,
 );
-
-

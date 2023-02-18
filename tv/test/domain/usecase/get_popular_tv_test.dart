@@ -21,15 +21,15 @@ void main() {
     group('execute', () {
       test(
           'should get list of tv from the repository when execute function is called',
-              () async {
-            // arrange
-            when(mockTVRepository.getPopularTV())
-                .thenAnswer((_) async => Right(tTVList));
-            // act
-            final result = await usecase.execute();
-            // assert
-            expect(result, Right(tTVList));
-          });
+          () async {
+        // arrange
+        when(mockTVRepository.getPopularTV())
+            .thenAnswer((_) async => Right(tTVList));
+        // act
+        final result = await usecase.execute();
+        // assert
+        expect(result, Right(tTVList));
+      });
     });
   });
 }

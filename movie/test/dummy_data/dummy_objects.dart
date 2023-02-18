@@ -54,4 +54,3 @@ final testMovieMap = {
   'posterPath': 'posterPath',
   'title': 'title',
 };
-

@@ -14,5 +14,5 @@ class TvSeasonDetailStarted extends TvSeasonDetailEvent {
   const TvSeasonDetailStarted({required this.id, required this.season});
 
   @override
-  List<Object> get props => [id,season];
+  List<Object> get props => [id, season];
 }

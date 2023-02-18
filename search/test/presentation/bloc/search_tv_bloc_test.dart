@@ -28,7 +28,7 @@ void main() {
     id: 1,
     originalName: 'originalName',
     originalLanguage: 'originalLanguage',
-    originCountry: const ['1','2'],
+    originCountry: const ['1', '2'],
     overview: 'overview',
     popularity: 1,
     posterPath: 'posterPath',

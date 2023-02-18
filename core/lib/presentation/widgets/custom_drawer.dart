@@ -9,7 +9,8 @@ class CustomDrawer extends StatefulWidget {
   State<CustomDrawer> createState() => _CustomDrawerState();
 }
 
-class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderStateMixin {
+class _CustomDrawerState extends State<CustomDrawer>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   Widget _buildDrawer() {
@@ -20,7 +21,7 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
           accountEmail: Text('robbysoerya6@gmail.com'),
           currentAccountPicture: CircleAvatar(
             backgroundImage: NetworkImage(
-                'https://raw.githubusercontent.com/dicodingacademy/assets/main/flutter_expert_academy/dicoding-icon.png',
+              'https://raw.githubusercontent.com/dicodingacademy/assets/main/flutter_expert_academy/dicoding-icon.png',
             ),
           ),
         ),
@@ -30,13 +31,12 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
           onTap: () => _animationController.reverse(),
         ),
         ListTile(
-          leading: const Icon(Icons.tv),
-          title: const Text('TV Series'),
-          onTap: () {
-            _animationController.reverse();
-            Navigator.pushNamed(context, TV_ROUTE);
-          }
-        ),
+            leading: const Icon(Icons.tv),
+            title: const Text('TV Series'),
+            onTap: () {
+              _animationController.reverse();
+              Navigator.pushNamed(context, TV_ROUTE);
+            }),
         ListTile(
           leading: const Icon(Icons.save_alt),
           title: const Text('Watchlist Movie'),
@@ -75,8 +75,8 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-            onTap: toggle,
-            child: const Icon(Icons.menu),
+          onTap: toggle,
+          child: const Icon(Icons.menu),
         ),
         title: const Text('Ditonton'),
         actions: [
@@ -89,25 +89,26 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
         ],
       ),
       body: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          double slide = MediaQuery.of(context).size.width * 0.5 * _animationController.value;
-          double scale = 1 - (_animationController.value * 0.3);
+          animation: _animationController,
+          builder: (context, child) {
+            double slide = MediaQuery.of(context).size.width *
+                0.5 *
+                _animationController.value;
+            double scale = 1 - (_animationController.value * 0.3);
 
-          return Stack(
-            children: [
-              _buildDrawer(),
-              Transform(
+            return Stack(
+              children: [
+                _buildDrawer(),
+                Transform(
                   transform: Matrix4.identity()
                     ..translate(slide)
                     ..scale(scale),
                   alignment: Alignment.centerLeft,
                   child: widget.content,
-              ),
-            ],
-          );
-        }
-      ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }

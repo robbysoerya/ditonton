@@ -1,7 +1,5 @@
 part of 'tv_detail_bloc.dart';
 
-
-
 abstract class TVDetailState extends Equatable {
   const TVDetailState();
 
