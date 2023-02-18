@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:about/about.dart';
 import 'package:core/core.dart';
 import 'package:firebase_core/firebase_core.dart';
