@@ -2,7 +2,7 @@ import 'package:core/domain/domain.dart';
 import 'package:equatable/equatable.dart';
 
 class EpisodesModel extends Equatable{
-  EpisodesModel({
+  const EpisodesModel({
     required this.airDate,
     required this.episodeNumber,
     required this.id,
@@ -25,7 +25,7 @@ class EpisodesModel extends Equatable{
         name: json["name"],
         overview: json["overview"],
         productionCode: json["production_code"],
-        runtime: json["runtime"] == null ? 0 : json["runtime"],
+        runtime: json["runtime"] ?? 0,
         seasonNumber: json["season_number"],
         showId: json["show_id"],
         stillPath: json["still_path"],

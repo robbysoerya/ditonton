@@ -32,14 +32,14 @@ class SeasonsModel extends Equatable {
       );
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['air_date'] = this.airDate;
-    data['episode_count'] = this.episodeCount;
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['overview'] = this.overview;
-    data['poster_path'] = this.posterPath;
-    data['season_number'] = this.seasonNumber;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['air_date'] = airDate;
+    data['episode_count'] = episodeCount;
+    data['id'] = id;
+    data['name'] = name;
+    data['overview'] = overview;
+    data['poster_path'] = posterPath;
+    data['season_number'] = seasonNumber;
     return data;
   }
 

@@ -29,7 +29,7 @@ class TVDetailResponse extends Equatable {
  final double voteAverage;
  final int voteCount;
 
-  TVDetailResponse(
+  const TVDetailResponse(
       {
         required this.adult,
         required this.backdropPath,
@@ -88,7 +88,7 @@ class TVDetailResponse extends Equatable {
   );
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['adult'] = adult;
     data['backdrop_path'] = backdropPath;
     data['episode_run_time'] = episodeRunTime;

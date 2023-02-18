@@ -1,25 +1,21 @@
 import 'package:core/presentation/widgets/tv_card.dart';
-import 'package:core/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/popular_tv_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/bloc.dart';
 
 class PopularTVPage extends StatefulWidget {
-
   const PopularTVPage({super.key});
 
   @override
-  _PopularTVPageState createState() => _PopularTVPageState();
+  State<PopularTVPage> createState() => _PopularTVPageState();
 }
 
 class _PopularTVPageState extends State<PopularTVPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<PopularTVNotifier>(context, listen: false)
-            .fetchPopularTV());
+    Future.microtask(
+        () => context.read<PopularTVBloc>().add(PopularTVStarted()));
   }
 
   @override
@@ -30,25 +26,27 @@ class _PopularTVPageState extends State<PopularTVPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopularTVNotifier>(
-          builder: (context, data, child) {
-            if (data.popularTVState == RequestState.loading) {
+        child: BlocBuilder<PopularTVBloc, PopularTVState>(
+          builder: (context, state) {
+            if (state is PopularTVLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.popularTVState == RequestState.loaded) {
+            } else if (state is PopularTVSuccess) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tv = data.popularTV[index];
+                  final tv = state.tv[index];
                   return TVCard(tv);
                 },
-                itemCount: data.popularTV.length,
+                itemCount: state.tv.length,
               );
-            } else {
+            } else if (state is PopularTVError) {
               return Center(
                 key: const Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
+            } else {
+              return const SizedBox();
             }
           },
         ),

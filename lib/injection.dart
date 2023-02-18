@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:core/core.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 import 'package:movie/movie.dart';
@@ -9,16 +11,9 @@ import 'package:tv/tv.dart';
 final locator = GetIt.instance;
 
 void init() {
-  // provider
+  // bloc
   locator.registerFactory(
-    () => MovieListNotifier(
-      getNowPlayingMovies: locator(),
-      getPopularMovies: locator(),
-      getTopRatedMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => MovieDetailNotifier(
+    () => MovieDetailBloc(
       getMovieDetail: locator(),
       getMovieRecommendations: locator(),
       getWatchListStatus: locator(),
@@ -27,73 +22,70 @@ void init() {
     ),
   );
   locator.registerFactory(
-    () => MovieSearchNotifier(
-      searchMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => PopularMoviesNotifier(
+    () => PopularMoviesBloc(
       locator(),
     ),
   );
   locator.registerFactory(
-    () => TopRatedMoviesNotifier(
-      getTopRatedMovies: locator(),
+    () => TopRatedMoviesBloc(
+      locator(),
     ),
   );
   locator.registerFactory(
-    () => WatchlistMovieNotifier(
-      getWatchlistMovies: locator(),
+    () => WatchListMoviesBloc(
+      locator(),
     ),
   );
   locator.registerFactory(
-    () => TVListNotifier(
-      getOnTheAirTV: locator(),
-      getPopularTV: locator(),
-      getTopRatedTV: locator(),
+    () => NowPlayingMoviesBloc(
+      locator(),
     ),
   );
+
   locator.registerFactory(
-    () => TVDetailNotifier(
+    () => TVDetailBloc(
       getTVDetail: locator(),
       getTVRecommendations: locator(),
       getWatchListStatus: locator(),
-      removeWatchlist: locator(),
       saveWatchlist: locator(),
+      removeWatchlist: locator(),
     ),
   );
+
   locator.registerFactory(
-    () => PopularTVNotifier(
-      getPopularTV: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TopRatedTVNotifier(
-      getTopRatedTV: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TVSearchNotifier(
-      searchTV: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => WatchlistTVNotifier(
-      getWatchlistTV: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TVSeasonDetailNotifier(
-      getTVSeasonDetail: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => NowPlayingMoviesNotifier(
+    () => PopularTVBloc(
       locator(),
     ),
   );
+
   locator.registerFactory(
-    () => NowPlayingTVNotifier(locator()),
+    () => TopRatedTVBloc(
+      locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => WatchListTVBloc(
+      locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => NowPlayingTVBloc(
+      locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => SearchBloc(
+      locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => SearchTvBloc(
+      locator(),
+    ),
   );
 
   // use case
@@ -138,11 +130,11 @@ void init() {
 
   // data sources
   locator.registerLazySingleton<MovieRemoteDataSource>(
-      () => MovieRemoteDataSourceImpl(client: locator()));
+      () => MovieRemoteDataSourceImpl(nc: locator()));
   locator.registerLazySingleton<MovieLocalDataSource>(
       () => MovieLocalDataSourceImpl(databaseHelper: locator()));
   locator.registerLazySingleton<TVRemoteDataSource>(
-      () => TVRemoteDataSourceImpl(client: locator()));
+      () => TVRemoteDataSourceImpl(nc: locator()));
   locator.registerLazySingleton<TVLocalDataSource>(
       () => TVLocalDataSourceImpl(databaseHelper: locator()));
 
@@ -152,6 +144,6 @@ void init() {
       () => NetworkInfoImpl(connectionChecker: locator()));
 
   // external
-  locator.registerLazySingleton(() => http.Client());
-  locator.registerLazySingleton(() => DataConnectionChecker());
+  locator.registerLazySingleton(() => NetworkClient());
+  locator.registerLazySingleton(() => InternetConnectionChecker());
 }

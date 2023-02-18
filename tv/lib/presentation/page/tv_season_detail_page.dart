@@ -2,9 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/domain/domain.dart';
 import 'package:core/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/tv_season_detail_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/tv_season_detail_bloc.dart';
 
 class TVSeasonDetailArgs {
   final int id;
@@ -14,7 +13,6 @@ class TVSeasonDetailArgs {
 }
 
 class TVSeasonDetailPage extends StatefulWidget {
-
   final TVSeasonDetailArgs args;
   const TVSeasonDetailPage({required this.args, Key? key}) : super(key: key);
 
@@ -26,9 +24,10 @@ class _TVSeasonDetailPageState extends State<TVSeasonDetailPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<TVSeasonDetailNotifier>(context, listen: false)
-            .fetchTVSeasonDetail(widget.args.id, widget.args.season));
+    Future.microtask(
+      () => context.read<TvSeasonDetailBloc>().add(TvSeasonDetailStarted(
+          id: widget.args.id, season: widget.args.season)),
+    );
   }
 
   @override
@@ -37,16 +36,18 @@ class _TVSeasonDetailPageState extends State<TVSeasonDetailPage> {
       appBar: AppBar(
         title: const Text('Season Detail'),
       ),
-      body:
-          Consumer<TVSeasonDetailNotifier>(builder: (context, provider, child) {
-        if (provider.state == RequestState.loading) {
+      body: BlocBuilder<TvSeasonDetailBloc, TvSeasonDetailState>(
+          builder: (context, state) {
+        if (state is TvSeasonDetailLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (provider.state == RequestState.loaded) {
-          return ContentWidget(tvSeasons: provider.tvSeasons);
+        } else if (state is TvSeasonDetailSuccess) {
+          return ContentWidget(tvSeasons: state.seasonsDetail);
+        } else if (state is TvSeasonDetailError) {
+          return Text(state.message);
         } else {
-          return Text(provider.message);
+          return const SizedBox();
         }
       }),
     );

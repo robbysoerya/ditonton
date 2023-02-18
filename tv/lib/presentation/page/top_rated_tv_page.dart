@@ -1,25 +1,21 @@
 import 'package:core/presentation/widgets/tv_card.dart';
-import 'package:core/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/top_rated_tv_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/bloc.dart';
 
 class TopRatedTVPage extends StatefulWidget {
-
   const TopRatedTVPage({super.key});
 
   @override
-  _TopRatedTVPageState createState() => _TopRatedTVPageState();
+  State<TopRatedTVPage> createState() => _TopRatedTVPageState();
 }
 
 class _TopRatedTVPageState extends State<TopRatedTVPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<TopRatedTVNotifier>(context, listen: false)
-            .fetchTopRatedTV());
+    Future.microtask(
+        () => context.read<TopRatedTVBloc>().add(TopRatedTVStarted()));
   }
 
   @override
@@ -30,25 +26,27 @@ class _TopRatedTVPageState extends State<TopRatedTVPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TopRatedTVNotifier>(
-          builder: (context, data, child) {
-            if (data.topRatedTVState == RequestState.loading) {
+        child: BlocBuilder<TopRatedTVBloc, TopRatedTVState>(
+          builder: (context, state) {
+            if (state is TopRatedTVLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.topRatedTVState == RequestState.loaded) {
+            } else if (state is TopRatedTVSuccess) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tv = data.topRatedTV[index];
+                  final tv = state.tv[index];
                   return TVCard(tv);
                 },
-                itemCount: data.topRatedTV.length,
+                itemCount: state.tv.length,
               );
-            } else {
+            } else if (state is TopRatedTVError) {
               return Center(
                 key: const Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
+            } else {
+              return const SizedBox();
             }
           },
         ),

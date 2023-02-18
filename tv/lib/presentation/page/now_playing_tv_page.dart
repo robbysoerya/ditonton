@@ -1,25 +1,21 @@
 import 'package:core/presentation/widgets/tv_card.dart';
-import 'package:core/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/now_playing_tv_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/bloc.dart';
 
 class NowPlayingTVPage extends StatefulWidget {
-
   const NowPlayingTVPage({super.key});
 
   @override
-  _NowPlayingTVPageState createState() => _NowPlayingTVPageState();
+  State<NowPlayingTVPage> createState() => _NowPlayingTVPageState();
 }
 
 class _NowPlayingTVPageState extends State<NowPlayingTVPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<NowPlayingTVNotifier>(context, listen: false)
-            .fetchOnTheAirTV());
+    Future.microtask(
+        () => context.read<NowPlayingTVBloc>().add(NowPlayingTVStarted()));
   }
 
   @override
@@ -30,25 +26,27 @@ class _NowPlayingTVPageState extends State<NowPlayingTVPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<NowPlayingTVNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
+        child: BlocBuilder<NowPlayingTVBloc, NowPlayingTVState>(
+          builder: (context, state) {
+            if (state is NowPlayingTVLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            } else if (state is NowPlayingTVSuccess) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tv = data.tv[index];
+                  final tv = state.tv[index];
                   return TVCard(tv);
                 },
-                itemCount: data.tv.length,
+                itemCount: state.tv.length,
               );
-            } else {
+            } else if (state is NowPlayingTVError) {
               return Center(
                 key: const Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
+            } else {
+              return const SizedBox();
             }
           },
         ),

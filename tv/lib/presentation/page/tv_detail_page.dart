@@ -1,53 +1,60 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
+import 'package:tv/presentation/bloc/bloc.dart';
 
-import '../provider/tv_detail_notifier.dart';
 import 'tv_season_detail_page.dart';
 
 class TVDetailPage extends StatefulWidget {
-
   final int id;
   const TVDetailPage({super.key, required this.id});
 
   @override
-  _TVDetailPageState createState() => _TVDetailPageState();
+  State<TVDetailPage> createState() => _TVDetailPageState();
 }
 
 class _TVDetailPageState extends State<TVDetailPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<TVDetailNotifier>(context, listen: false)
-          .fetchTVDetail(widget.id);
-      Provider.of<TVDetailNotifier>(context, listen: false)
-          .loadWatchlistStatus(widget.id);
+    Future.microtask(
+        () => context.read<TVDetailBloc>().add(TVDetailStarted(widget.id)));
+    context.read<TVDetailBloc>().stream.listen((state) {
+      if (state is TVDetailSuccess) {
+        final message = state.message;
+        if (message != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message)),
+          );
+        }
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<TVDetailNotifier>(
-        builder: (context, provider, child) {
-          if (provider.tvDetailState == RequestState.loading) {
+      body: BlocBuilder<TVDetailBloc, TVDetailState>(
+        builder: (context, state) {
+          if (state is TVDetailLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.tvDetailState == RequestState.loaded) {
-            final tv = provider.tvDetail;
+          } else if (state is TVDetailSuccess) {
+            final tv = state.tv;
             return SafeArea(
               child: _DetailContent(
                 tv,
-                provider.tvRecommendations,
-                provider.isAddedToWatchlist,
+                state.recommendations,
+                state.isAddedWatchList,
               ),
             );
+          } else if (state is TVDetailError) {
+            return Text(state.message);
           } else {
-            return Text(provider.message);
+            return const SizedBox();
           }
         },
       ),
@@ -60,7 +67,8 @@ class _DetailContent extends StatelessWidget {
   final List<TV> recommendations;
   final bool isAddedWatchlist;
 
-  const _DetailContent(this.tvDetail, this.recommendations, this.isAddedWatchlist);
+  const _DetailContent(
+      this.tvDetail, this.recommendations, this.isAddedWatchlist);
 
   @override
   Widget build(BuildContext context) {
@@ -105,36 +113,13 @@ class _DetailContent extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () async {
                                 if (!isAddedWatchlist) {
-                                  await Provider.of<TVDetailNotifier>(context,
-                                          listen: false)
-                                      .addWatchlist(tvDetail);
+                                  context
+                                      .read<TVDetailBloc>()
+                                      .add(OnAddWatchList(tvDetail));
                                 } else {
-                                  await Provider.of<TVDetailNotifier>(context,
-                                          listen: false)
-                                      .removeFromWatchlist(tvDetail);
-                                }
-
-                                final message = Provider.of<TVDetailNotifier>(
-                                        context,
-                                        listen: false)
-                                    .watchlistMessage;
-
-                                if (message ==
-                                        TVDetailNotifier
-                                            .watchlistAddSuccessMessage ||
-                                    message ==
-                                        TVDetailNotifier
-                                            .watchlistRemoveSuccessMessage) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(message)));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(message),
-                                        );
-                                      });
+                                  context
+                                      .read<TVDetailBloc>()
+                                      .add(OnRemoveWatchList(tvDetail));
                                 }
                               },
                               child: Row(
@@ -210,7 +195,8 @@ class _DetailContent extends StatelessWidget {
                                             CrossAxisAlignment.end,
                                         children: [
                                           ClipRRect(
-                                            borderRadius: const BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(8),
                                             ),
                                             child: CachedNetworkImage(
@@ -243,18 +229,15 @@ class _DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            Consumer<TVDetailNotifier>(
-                              builder: (context, data, child) {
-                                if (data.tvRecommendationsState ==
-                                    RequestState.loading) {
+                            BlocBuilder<TVDetailBloc, TVDetailState>(
+                              builder: (context, state) {
+                                if (state is TVDetailLoading) {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
-                                } else if (data.tvRecommendationsState ==
-                                    RequestState.error) {
-                                  return Text(data.message);
-                                } else if (data.tvRecommendationsState ==
-                                    RequestState.loaded) {
+                                } else if (state is TVDetailError) {
+                                  return Text(state.message);
+                                } else if (state is TVDetailSuccess) {
                                   return SizedBox(
                                     height: 150,
                                     child: ListView.builder(
@@ -273,7 +256,8 @@ class _DetailContent extends StatelessWidget {
                                               );
                                             },
                                             child: ClipRRect(
-                                              borderRadius: const BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(8),
                                               ),
                                               child: CachedNetworkImage(

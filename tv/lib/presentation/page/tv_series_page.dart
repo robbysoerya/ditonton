@@ -1,26 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/tv_list_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/bloc.dart';
 
 class TVSeriesPage extends StatefulWidget {
-
   const TVSeriesPage({super.key});
 
   @override
-  _TVSeriesPageState createState() => _TVSeriesPageState();
+  State<TVSeriesPage> createState() => _TVSeriesPageState();
 }
 
 class _TVSeriesPageState extends State<TVSeriesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => Provider.of<TVListNotifier>(context, listen: false)
-      ..fetchOnTheAirTV()
-      ..fetchPopularTV()
-      ..fetchTopRatedTV());
+    Future.microtask(() {
+      context.read<NowPlayingTVBloc>().add(NowPlayingTVStarted());
+      context.read<PopularTVBloc>().add(PopularTVStarted());
+      context.read<TopRatedTVBloc>().add(TopRatedTVStarted());
+    });
   }
 
   @override
@@ -45,51 +44,48 @@ class _TVSeriesPageState extends State<TVSeriesPage> {
             children: [
               _buildSubHeading(
                 title: 'Now Playing',
-                onTap: () =>
-                    Navigator.pushNamed(context, NOW_PLAYING_TV_ROUTE),
+                onTap: () => Navigator.pushNamed(context, NOW_PLAYING_TV_ROUTE),
               ),
-              Consumer<TVListNotifier>(builder: (context, data, child) {
-                final state = data.onTheAirTVState;
-                if (state == RequestState.loading) {
+              BlocBuilder<NowPlayingTVBloc, NowPlayingTVState>(
+                  builder: (context, state) {
+                if (state is NowPlayingTVLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.loaded) {
-                  return TVList(data.onTheAirTV);
+                } else if (state is NowPlayingTVSuccess) {
+                  return TVList(state.tv);
                 } else {
                   return const Text('Failed');
                 }
               }),
               _buildSubHeading(
                 title: 'Popular',
-                onTap: () =>
-                    Navigator.pushNamed(context, POPULAR_TV_ROUTE),
+                onTap: () => Navigator.pushNamed(context, POPULAR_TV_ROUTE),
               ),
-              Consumer<TVListNotifier>(builder: (context, data, child) {
-                final state = data.popularTVState;
-                if (state == RequestState.loading) {
+              BlocBuilder<PopularTVBloc, PopularTVState>(
+                  builder: (context, state) {
+                if (state is PopularTVLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.loaded) {
-                  return TVList(data.popularTV);
+                } else if (state is PopularTVSuccess) {
+                  return TVList(state.tv);
                 } else {
                   return const Text('Failed');
                 }
               }),
               _buildSubHeading(
                 title: 'Top Rated',
-                onTap: () =>
-                    Navigator.pushNamed(context, TOP_RATED_TV_ROUTE),
+                onTap: () => Navigator.pushNamed(context, TOP_RATED_TV_ROUTE),
               ),
-              Consumer<TVListNotifier>(builder: (context, data, child) {
-                final state = data.topRatedTVState;
-                if (state == RequestState.loading) {
+              BlocBuilder<TopRatedTVBloc, TopRatedTVState>(
+                  builder: (context, state) {
+                if (state is TopRatedTVLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.loaded) {
-                  return TVList(data.topRatedTV);
+                } else if (state is TopRatedTVSuccess) {
+                  return TVList(state.tv);
                 } else {
                   return const Text('Failed');
                 }
@@ -149,7 +145,7 @@ class TVList extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${tv.posterPath}',
+                  imageUrl: '$kBaseImageUrl${tv.posterPath}',
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),

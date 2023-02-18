@@ -1,15 +1,28 @@
+import 'dart:developer';
+
 import 'package:about/about.dart';
 import 'package:core/core.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/movie.dart';
 import 'package:provider/provider.dart';
 import 'package:search/search.dart';
 import 'package:tv/tv.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  log('${FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled}');
   di.init();
+  FirebaseCrashlytics.instance.crash();
   runApp(MyApp());
 }
 
@@ -18,44 +31,38 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieListNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TopRatedMoviesBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieSearchNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<PopularMoviesBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedMoviesNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<WatchListMoviesBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularMoviesNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<PopularTVBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistMovieNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TopRatedTVBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TVListNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<WatchListTVBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularTVNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TvSeasonDetailBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedTVNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<NowPlayingMoviesBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TVSearchNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<NowPlayingTVBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistTVNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<SearchBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TVSeasonDetailNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<NowPlayingMoviesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<NowPlayingTVNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<MovieDetailBloc>(),
         ),
       ],
       child: MaterialApp(
@@ -81,8 +88,8 @@ class MyApp extends StatelessWidget {
             case TV_DETAIL_ROUTE:
               final id = settings.arguments as int;
               return MaterialPageRoute(
-                builder: (_) => ChangeNotifierProvider(
-                    create: (_) => di.locator<TVDetailNotifier>(),
+                builder: (_) => BlocProvider(
+                    create: (_) => di.locator<TVDetailBloc>(),
                     child: TVDetailPage(id: id)),
               );
             case POPULAR_TV_ROUTE:
@@ -107,8 +114,8 @@ class MyApp extends StatelessWidget {
             case MOVIE_DETAIL_ROUTE:
               final id = settings.arguments as int;
               return MaterialPageRoute(
-                builder: (_) => ChangeNotifierProvider(
-                  create: (_) => di.locator<MovieDetailNotifier>(),
+                builder: (_) => BlocProvider(
+                  create: (_) => di.locator<MovieDetailBloc>(),
                   child: MovieDetailPage(id: id),
                 ),
                 settings: settings,

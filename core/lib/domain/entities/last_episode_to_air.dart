@@ -13,7 +13,7 @@ class LastEpisodeToAir extends Equatable {
   final double voteAverage;
   final int voteCount;
 
-  LastEpisodeToAir({
+  const LastEpisodeToAir({
     required this.airDate,
     required this.episodeNumber,
     required this.id,
