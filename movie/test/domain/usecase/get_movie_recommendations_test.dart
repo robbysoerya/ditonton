@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movie/movie.dart';
 
-import '../../helper/test_helper.mocks.dart';
+import '../../../../core/test/helper/test_helper.mocks.dart';
 
 void main() {
   late GetMovieRecommendations usecase;

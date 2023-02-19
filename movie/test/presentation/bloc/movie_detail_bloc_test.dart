@@ -91,6 +91,22 @@ void main() {
   );
 
   blocTest<MovieDetailBloc, MovieDetailState>(
+    'emits [MovieDetailError] when failed',
+    build: () {
+      arrangeUsecase();
+      when(mockGetMovieDetail.execute(tId)).thenAnswer(
+        (_) async => const Left(ServerFailure('')),
+      );
+      return movieDetailBloc;
+    },
+    act: (bloc) => bloc.add(MovieDetailStarted(tId)),
+    expect: () => [
+      MovieDetailLoading(),
+      const MovieDetailError(''),
+    ],
+  );
+
+  blocTest<MovieDetailBloc, MovieDetailState>(
     'emits [MovieDetailSuccess] with isAddedWatchList true when add event OnAddWatchList',
     build: () {
       arrangeUsecase();
@@ -118,6 +134,34 @@ void main() {
   );
 
   blocTest<MovieDetailBloc, MovieDetailState>(
+    'emits [MovieDetailError] with isAddedWatchList true when add event OnAddWatchList',
+    build: () {
+      arrangeUsecase();
+      when(mockGetMovieDetail.execute(tId)).thenAnswer(
+        (_) async => const Right(testMovieDetail),
+      );
+      when(mockSaveWatchlist.execute(testMovieDetail)).thenAnswer(
+          (_) async => const Left(DatabaseFailure('add to watchlist failed')));
+      when(mockGetWatchListStatus.execute(tId)).thenAnswer((_) async => true);
+      return movieDetailBloc;
+    },
+    seed: () => MovieDetailSuccess(
+      movie: testMovieDetail,
+      recommendations: [testMovie],
+      isAddedWatchList: false,
+    ),
+    act: (bloc) => bloc.add(const OnAddWatchList(testMovieDetail)),
+    expect: () => [
+      MovieDetailSuccess(
+        movie: testMovieDetail,
+        recommendations: [testMovie],
+        isAddedWatchList: false,
+        message: 'add to watchlist failed',
+      ),
+    ],
+  );
+
+  blocTest<MovieDetailBloc, MovieDetailState>(
     'emits [MovieDetailSuccess] with isAddedWatchList false when add event OnRemoveWatchList',
     build: () {
       arrangeUsecase();
@@ -141,6 +185,33 @@ void main() {
           recommendations: [testMovie],
           isAddedWatchList: false,
           message: 'remove watchlist success'),
+    ],
+  );
+
+  blocTest<MovieDetailBloc, MovieDetailState>(
+    'emits [MovieDetailError] with isAddedWatchList false when add event OnRemoveWatchList',
+    build: () {
+      arrangeUsecase();
+      when(mockGetMovieDetail.execute(tId)).thenAnswer(
+        (_) async => const Right(testMovieDetail),
+      );
+      when(mockRemoveWatchlist.execute(testMovieDetail)).thenAnswer(
+          (_) async => const Left(DatabaseFailure('remove watchlist failed')));
+      when(mockGetWatchListStatus.execute(tId)).thenAnswer((_) async => false);
+      return movieDetailBloc;
+    },
+    seed: () => MovieDetailSuccess(
+      movie: testMovieDetail,
+      recommendations: [testMovie],
+      isAddedWatchList: true,
+    ),
+    act: (bloc) => bloc.add(const OnRemoveWatchList(testMovieDetail)),
+    expect: () => [
+      MovieDetailSuccess(
+          movie: testMovieDetail,
+          recommendations: [testMovie],
+          isAddedWatchList: true,
+          message: 'remove watchlist failed'),
     ],
   );
 }

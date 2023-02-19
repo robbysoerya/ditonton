@@ -28,6 +28,8 @@ class TVRepositoryImpl implements TVRepository {
         return const Left(ServerFailure(''));
       } on SocketException catch (e) {
         return Left(ConnectionFailure(e.message));
+      } on TlsException catch (e) {
+        return Left(SSLFailure(e.message));
       }
     } else {
       try {
@@ -48,6 +50,8 @@ class TVRepositoryImpl implements TVRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     }
   }
 
@@ -60,6 +64,8 @@ class TVRepositoryImpl implements TVRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     }
   }
 
@@ -72,6 +78,8 @@ class TVRepositoryImpl implements TVRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     }
   }
 
@@ -84,6 +92,8 @@ class TVRepositoryImpl implements TVRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     }
   }
 
@@ -94,8 +104,6 @@ class TVRepositoryImpl implements TVRepository {
       return Right(result.map((data) => data.toEntity()).toList());
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
     }
   }
 
@@ -138,6 +146,8 @@ class TVRepositoryImpl implements TVRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     }
   }
 
@@ -151,6 +161,8 @@ class TVRepositoryImpl implements TVRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     }
   }
 }

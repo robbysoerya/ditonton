@@ -85,6 +85,12 @@ void init() {
     ),
   );
 
+  locator.registerFactory(
+    () => TvSeasonDetailBloc(
+      locator(),
+    ),
+  );
+
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
   locator.registerLazySingleton(() => GetPopularMovies(locator()));

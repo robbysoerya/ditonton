@@ -118,6 +118,33 @@ void main() {
   );
 
   blocTest<TVDetailBloc, TVDetailState>(
+    'emits [TVDetailError] with isAddedWatchList true when add event OnAddWatchList',
+    build: () {
+      arrangeUsecase();
+      when(mockGetTVDetail.execute(tId)).thenAnswer(
+        (_) async => const Right(testTVDetail),
+      );
+      when(mockSaveWatchlist.execute(testTVDetail)).thenAnswer(
+          (_) async => const Left(DatabaseFailure('add to watchlist failed')));
+      when(mockGetWatchListStatus.execute(tId)).thenAnswer((_) async => true);
+      return tvDetailBloc;
+    },
+    seed: () => TVDetailSuccess(
+      tv: testTVDetail,
+      recommendations: [testTV],
+      isAddedWatchList: false,
+    ),
+    act: (bloc) => bloc.add(const OnAddWatchList(testTVDetail)),
+    expect: () => [
+      TVDetailSuccess(
+          tv: testTVDetail,
+          recommendations: [testTV],
+          isAddedWatchList: false,
+          message: 'add to watchlist failed'),
+    ],
+  );
+
+  blocTest<TVDetailBloc, TVDetailState>(
     'emits [TVDetailSuccess] with isAddedWatchList false when add event OnRemoveWatchList',
     build: () {
       arrangeUsecase();
@@ -141,6 +168,34 @@ void main() {
           recommendations: [testTV],
           isAddedWatchList: false,
           message: 'remove watchlist success'),
+    ],
+  );
+
+  blocTest<TVDetailBloc, TVDetailState>(
+    'emits [TVDetailError] with isAddedWatchList false when add event OnRemoveWatchList',
+    build: () {
+      arrangeUsecase();
+      when(mockGetTVDetail.execute(tId)).thenAnswer(
+        (_) async => const Right(testTVDetail),
+      );
+      when(mockRemoveWatchlist.execute(testTVDetail)).thenAnswer(
+          (_) async => const Left(DatabaseFailure('remove watchlist failed')));
+      when(mockGetWatchListStatus.execute(tId)).thenAnswer((_) async => false);
+      return tvDetailBloc;
+    },
+    seed: () => TVDetailSuccess(
+      tv: testTVDetail,
+      recommendations: [testTV],
+      isAddedWatchList: true,
+    ),
+    act: (bloc) => bloc.add(const OnRemoveWatchList(testTVDetail)),
+    expect: () => [
+      TVDetailSuccess(
+        tv: testTVDetail,
+        recommendations: [testTV],
+        isAddedWatchList: true,
+        message: 'remove watchlist failed',
+      ),
     ],
   );
 }

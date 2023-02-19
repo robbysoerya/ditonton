@@ -9,7 +9,7 @@ part 'tv_season_detail_state.dart';
 class TvSeasonDetailBloc
     extends Bloc<TvSeasonDetailEvent, TvSeasonDetailState> {
   final GetTVSeasonDetail getTVSeasonDetail;
-  TvSeasonDetailBloc(this.getTVSeasonDetail) : super(TvSeasonDetailInitial()) {
+  TvSeasonDetailBloc(this.getTVSeasonDetail) : super(TvSeasonDetailLoading()) {
     on<TvSeasonDetailStarted>(_onTVSeasonDetailStarted);
   }
 

@@ -7,8 +7,6 @@ abstract class TvSeasonDetailState extends Equatable {
   List<Object> get props => [];
 }
 
-class TvSeasonDetailInitial extends TvSeasonDetailState {}
-
 class TvSeasonDetailLoading extends TvSeasonDetailState {}
 
 class TvSeasonDetailError extends TvSeasonDetailState {
